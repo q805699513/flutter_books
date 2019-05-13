@@ -1,22 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_books/res/colors.dart';
+import 'package:flutter_books/res/dimens.dart';
 import 'package:flutter_books/ui/home/home_page.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _MyHomePageState();
+  State<StatefulWidget> createState() =>_MyHomePageState();
 }
 
 class _MyHomePageState extends State {
   int _tabIndex = 0;
-  List<Image> _tabImages = [
-    Image.asset('images/icon_tab_bookshelf_n.png', width: 24, height: 24),
-    Image.asset('images/icon_tab_bookshelf_p.png', width: 24, height: 24),
-    Image.asset('images/icon_tab_home_n.png', width: 24, height: 24),
-    Image.asset('images/icon_tab_home_p.png', width: 24, height: 24),
-    Image.asset('images/icon_tab_me_n.png', width: 24, height: 24),
-    Image.asset('images/icon_tab_me_p.png', width: 24, height: 24),
+ final List<Image> _tabImages = [
+    Image.asset('images/icon_tab_bookshelf_n.png', width: Dimens.homeImageSize, height: Dimens.homeImageSize),
+    Image.asset('images/icon_tab_bookshelf_p.png', width: Dimens.homeImageSize, height: Dimens.homeImageSize),
+    Image.asset('images/icon_tab_home_n.png', width: Dimens.homeImageSize, height: Dimens.homeImageSize),
+    Image.asset('images/icon_tab_home_p.png', width: Dimens.homeImageSize, height: Dimens.homeImageSize),
+    Image.asset('images/icon_tab_me_n.png', width: Dimens.homeImageSize, height: Dimens.homeImageSize),
+    Image.asset('images/icon_tab_me_p.png', width: Dimens.homeImageSize, height: Dimens.homeImageSize),
   ];
 
   @override

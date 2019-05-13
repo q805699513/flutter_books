@@ -21,6 +21,8 @@ class MyColors{
   static final Color fractionColor = Color(0xFFFF7634);
 
   static final Color dividerColor = Color(0xFFF6F7F8);
+  static final Color dividerDarkColor = Color(0xFFEBEDF0);
+
 
 
 }

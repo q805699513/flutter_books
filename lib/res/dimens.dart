@@ -1,10 +1,9 @@
-class Dimens{
- static final double leftMargin = 12;
- static final double rightMargin = 12;
- static final double titleTextSize = 14;
- static final double textSizeM = 11;
- static final double textSizeL = 10;
 
-
-
+class Dimens {
+  static final double leftMargin = 14;
+  static final double rightMargin = 14;
+  static final double titleTextSize = 18;
+  static final double textSizeM = 16;
+  static final double textSizeL = 14;
+  static double homeImageSize = 25;
 }

@@ -357,7 +357,7 @@ class BookInfoState extends State<BookInfo> {
           if (tap == 1) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (content) => BookChapters()),
+              MaterialPageRoute(builder: (content) => BookChapters(this.widget._bookId)),
             );
           }
         },

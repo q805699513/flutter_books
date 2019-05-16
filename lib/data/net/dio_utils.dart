@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class DioUtils {
   static final DioUtils _singleton = DioUtils._init();
@@ -49,19 +50,29 @@ class DioUtils {
     _printHttpLog(response);
     if (response.statusCode == 200) {
       try {
-        if (response.data["ok"] != null &&
-            !response.data["ok"] &&
-            response.data["msg"] != null &&
-            response.data["code"] != null) {
-          return new Future.error(new DioError(
-            response: response,
-            message: response.data["msg"],
-            type: DioErrorType.RESPONSE,
-          ));
+        if (response.data is Map) {
+          if (response.data["ok"] != null &&
+              !response.data["ok"] &&
+              response.data["msg"] != null &&
+              response.data["code"] != null) {
+            Fluttertoast.showToast(msg: response.data["msg"], fontSize: 14.0);
+            return new Future.error(new DioError(
+              response: response,
+              message: response.data["msg"],
+              type: DioErrorType.RESPONSE,
+            ));
+          }
+          // 由于小说接口返回的格式不固定不规范，所以直接返回，这里一般返回BaseResp.
+          return response.data;
+        } else {
+          if (response.data is List) {
+            Map<String, dynamic> _dataMap = Map();
+            _dataMap["data"] = response.data;
+            return _dataMap;
+          }
         }
-        // 由于小说接口返回的格式不固定不规范，所以直接返回字符串，这里一般返回BaseResp.
-        return response.data;
       } catch (e) {
+        Fluttertoast.showToast(msg: "网络连接不可用，请稍后重试", fontSize: 14.0);
         return new Future.error(new DioError(
           response: response,
           message: "data parsing exception...",
@@ -69,7 +80,7 @@ class DioUtils {
         ));
       }
     }
-
+    Fluttertoast.showToast(msg: "网络连接不可用，请稍后重试", fontSize: 14.0);
     return new Future.error(new DioError(
       response: response,
       message: "statusCode: ${response.statusCode}, service error",

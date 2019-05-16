@@ -23,6 +23,7 @@ class MyColors{
   static final Color dividerColor = Color(0xFFF6F7F8);
   static final Color dividerDarkColor = Color(0xFFEBEDF0);
 
+  static final Color titleTextColor = Color(0xFF333333);
 
 
 }

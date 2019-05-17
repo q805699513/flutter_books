@@ -5,18 +5,18 @@ import 'package:flutter_books/data/repository/repository.dart';
 import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
 
-class BookContent extends StatefulWidget {
+class BookContentPage extends StatefulWidget {
   final String _bookUrl;
 
-  BookContent(this._bookUrl);
+  BookContentPage(this._bookUrl);
 
   @override
   State<StatefulWidget> createState() {
-    return BookContentState();
+    return BookContentPageState();
   }
 }
 
-class BookContentState extends State<BookContent> {
+class BookContentPageState extends State<BookContentPage> {
   String _content = "";
 
   @override
@@ -36,7 +36,7 @@ class BookContentState extends State<BookContent> {
             _content,
             textAlign: TextAlign.left,
             style: TextStyle(
-                color: MyColors.textBlackH, fontSize: Dimens.textSizeL),
+                color: MyColors.textBlackH, fontSize: Dimens.textSizeM),
           ),
         ),
       ),

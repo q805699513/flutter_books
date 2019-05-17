@@ -4,7 +4,7 @@ import 'package:flutter_books/data/model/response/categories_resp.dart';
 import 'package:flutter_books/data/repository/repository.dart';
 import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
-import 'package:flutter_books/ui/details/book_info.dart';
+import 'package:flutter_books/ui/details/book_info_page.dart';
 import 'package:flutter_books/util/utils.dart';
 
 // ignore: must_be_immutable
@@ -48,7 +48,7 @@ class _HomeTabListViewState extends State<HomeTabListView>
       onTap: () {
         Navigator.push(
           context,
-          new MaterialPageRoute(builder: (context) => BookInfo(_list[position].id)),
+          new MaterialPageRoute(builder: (context) => BookInfoPage(_list[position].id)),
         );
       },
       child: Container(
@@ -83,7 +83,7 @@ class _HomeTabListViewState extends State<HomeTabListView>
                         TextStyle(color: MyColors.textBlackM, fontSize: 14),
                   ),
                   SizedBox(
-                    height: 6,
+                    height: 10,
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.max,

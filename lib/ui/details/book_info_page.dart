@@ -3,7 +3,7 @@ import 'package:flutter_books/data/model/response/book_info_resp.dart';
 import 'package:flutter_books/data/repository/repository.dart';
 import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
-import 'package:flutter_books/ui/details/book_chapters.dart';
+import 'package:flutter_books/ui/details/book_chapters_page.dart';
 import 'package:flutter_books/util/utils.dart';
 import 'package:flutter_books/widget/load_view.dart';
 import 'package:flutter_books/widget/static_rating_bar.dart';
@@ -11,16 +11,16 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 ///@author longshaohua
 ///详情页
-class BookInfo extends StatefulWidget {
+class BookInfoPage extends StatefulWidget {
   final String _bookId;
 
-  BookInfo(this._bookId);
+  BookInfoPage(this._bookId);
 
   @override
-  State<StatefulWidget> createState() => BookInfoState();
+  State<StatefulWidget> createState() => BookInfoPageState();
 }
 
-class BookInfoState extends State<BookInfo> {
+class BookInfoPageState extends State<BookInfoPage> {
   LoadStatus _loadStatus = LoadStatus.LOADING;
   BookInfoResp _bookInfoResp;
   ScrollController _controller = new ScrollController();
@@ -258,8 +258,8 @@ class BookInfoState extends State<BookInfo> {
         children: <Widget>[
           Image.network(
             Utils.convertImageUrl(_bookInfoResp.cover),
-            height: 141,
-            width: 105,
+            height: 137,
+            width: 100,
             fit: BoxFit.cover,
           ),
           SizedBox(
@@ -284,7 +284,7 @@ class BookInfoState extends State<BookInfo> {
                       fontSize: Dimens.textSizeM, color: MyColors.white),
                 ),
                 SizedBox(
-                  height: 57,
+                  height: 61,
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.max,
@@ -357,21 +357,21 @@ class BookInfoState extends State<BookInfo> {
           if (tap == 1) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (content) => BookChapters(this.widget._bookId)),
+              MaterialPageRoute(builder: (content) => BookChaptersPage(this.widget._bookId)),
             );
           }
         },
         child: Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+          padding: EdgeInsets.fromLTRB(0, 12, 0, 12),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Image.asset(
                 img,
-                width: 30,
-                height: 30,
+                width: 34,
+                height: 34,
                 fit: BoxFit.contain,
               ),
               Text(content,
@@ -402,9 +402,11 @@ class BookInfoState extends State<BookInfo> {
       padding: EdgeInsets.fromLTRB(Dimens.leftMargin, 0, Dimens.rightMargin, 0),
       child: Column(
         children: <Widget>[
-          itemView("嘻嘻", "更新太慢了", 4.5, "9", true),
-          itemView("书友805699513", "好文章不错，就是更新太慢了。", 5, "7", false),
-          itemView("书友007", "没看先点赞", 5, "1", false),
+          itemView("嘻嘻", "求更新，不够看", 4.5, "9", true),
+          itemView("书友805699513", "不错不错。", 5, "8", false),
+          itemView("书友007", "没看先点赞", 5, "5", true),
+          itemView("书友00888", "好文章不错，就是更新太慢了。", 3, "1", false),
+          itemView("书友00666", "打卡", 5, "9", true),
         ],
       ),
     );
@@ -466,13 +468,13 @@ class BookInfoState extends State<BookInfo> {
               child: image
                   ? Image.asset(
                       "images/icon_like_true.png",
-                      width: 16,
-                      height: 16,
+                      width: 18,
+                      height: 18,
                     )
                   : Image.asset(
                       "images/icon_like_false.png",
-                      width: 16,
-                      height: 16,
+                      width: 18,
+                      height: 18,
                     ),
               onTap: () {
                 Fluttertoast.showToast(msg: "本app不允许点赞", fontSize: 14.0);
@@ -487,8 +489,8 @@ class BookInfoState extends State<BookInfo> {
             ),
             Image.asset(
               "images/icon_comment.png",
-              width: 16,
-              height: 16,
+              width: 18,
+              height: 18,
             ),
           ],
         ),
@@ -517,4 +519,5 @@ class BookInfoState extends State<BookInfo> {
       print("---走了2" + e.toString());
     });
   }
+
 }

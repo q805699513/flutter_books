@@ -6,20 +6,20 @@ import 'package:flutter_books/data/model/response/book_genuine_source_resp.dart'
 import 'package:flutter_books/data/repository/repository.dart';
 import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
-import 'package:flutter_books/ui/details/book_chapters_content.dart';
+import 'package:flutter_books/ui/details/book_chapters_content_page.dart';
 
-class BookChapters extends StatefulWidget {
+class BookChaptersPage extends StatefulWidget {
   final String _bookId;
 
-  BookChapters(this._bookId);
+  BookChaptersPage(this._bookId);
 
   @override
   State<StatefulWidget> createState() {
-    return BookChaptersState();
+    return BookChaptersPageState();
   }
 }
 
-class BookChaptersState extends State<BookChapters> {
+class BookChaptersPageState extends State<BookChaptersPage> {
   List<BookChaptersBean> _listBean = [];
 
   @override
@@ -90,7 +90,7 @@ class BookChaptersState extends State<BookChapters> {
       child: InkWell(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return BookContent(_listBean[index].link);
+            return BookContentPage(_listBean[index].link);
           }));
         },
         child: Padding(

@@ -12,10 +12,10 @@ class MyColors{
   static final Color homeTabGreyText = Color(0xFF606060);
   static final Color homeGrey = Color(0xFFF5F5F5);
   static final Color homeGreyText = Color(0xFFCCCCCC);
-  /// H高、M中、L low低
-  static final Color textBlackH = Color(0xFF31323E);
-  static final Color textBlackM = Color(0xFF6A6C7A);
-  static final Color textBlackL = Color(0xFF9A9AA7);
+
+  static final Color textBlack3 = Color(0xFF31323E);
+  static final Color textBlack6 = Color(0xFF6A6C7A);
+  static final Color textBlack9 = Color(0xFF9A9AA7);
 
   static final Color infoBgColor = Color(0xFF605167);
   static final Color fractionColor = Color(0xFFFF7634);

@@ -9,8 +9,10 @@ void main() {
   runApp(MyApp());
   if (Platform.isAndroid) {
     //设置状态栏透明
-    SystemUiOverlayStyle systemUiOverlayStyle =
-        SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.dark,
+      statusBarColor: Colors.transparent,
+    );
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
 }
@@ -22,6 +24,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        cursorColor: MyColors.textPrimaryColor,
+        scaffoldBackgroundColor: MyColors.white,
         primaryColor: MyColors.primary,
       ),
       home: MyHomePage(),

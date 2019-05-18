@@ -42,4 +42,12 @@ class Repository {
       "http://chapterup.zhuishushenqi.com/chapter/$url",
     );
   }
+
+  ///关键字搜索返回小说列表
+  Future<Map> getFuzzySearchBookList(queryParameters) async {
+    return await DioUtils().request<String>(
+      "/book/fuzzy-search",
+      queryParameters: queryParameters,
+    );
+  }
 }

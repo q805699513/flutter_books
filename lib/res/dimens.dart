@@ -6,4 +6,7 @@ class Dimens {
   static final double textSizeM = 16;
   static final double textSizeL = 14;
   static double homeImageSize = 25;
+
+  static double titleHeight = 48;
+
 }

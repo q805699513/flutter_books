@@ -52,7 +52,7 @@ class _HomeTabListViewState extends State<HomeTabListView>
         );
       },
       child: Container(
-        padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+        padding: EdgeInsets.fromLTRB(0, 12, 0, 12),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -72,7 +72,7 @@ class _HomeTabListViewState extends State<HomeTabListView>
                   Text(
                     _list[position].title,
                     style:
-                        TextStyle(color: MyColors.textBlackH, fontSize: 16),
+                        TextStyle(color: MyColors.textBlack3, fontSize: 16),
                   ),
                   SizedBox(height: 6),
                   Text(
@@ -80,10 +80,10 @@ class _HomeTabListViewState extends State<HomeTabListView>
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style:
-                        TextStyle(color: MyColors.textBlackM, fontSize: 14),
+                        TextStyle(color: MyColors.textBlack6, fontSize: 14),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 12,
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.max,
@@ -93,7 +93,7 @@ class _HomeTabListViewState extends State<HomeTabListView>
                           child: Text(
                         _list[position].author,
                         style: TextStyle(
-                          color: MyColors.textBlackL,
+                          color: MyColors.textBlack9,
                           fontSize: 14,
                         ),
                       )),
@@ -124,14 +124,15 @@ class _HomeTabListViewState extends State<HomeTabListView>
 
   tagView(String tag) {
     return Container(
-      padding: EdgeInsets.fromLTRB(5, 0, 5, 2),
+      padding: EdgeInsets.fromLTRB(5, 0, 5,0),
+      alignment: Alignment.center,
       child: Text(
         tag,
-        style: TextStyle(color: MyColors.textBlackL, fontSize: 12),
+        style: TextStyle(color: MyColors.textBlack9, fontSize: 11.5),
       ),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(3)),
-          border: Border.all(width: 0.5, color: MyColors.textBlackL)),
+          border: Border.all(width: 0.5, color: MyColors.textBlack9)),
     );
   }
 

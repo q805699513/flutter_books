@@ -36,7 +36,7 @@ class BookContentPageState extends State<BookContentPage> {
             _content,
             textAlign: TextAlign.left,
             style: TextStyle(
-                color: MyColors.textBlackH, fontSize: Dimens.textSizeM),
+                color: MyColors.textBlack3, fontSize: Dimens.textSizeM),
           ),
         ),
       ),

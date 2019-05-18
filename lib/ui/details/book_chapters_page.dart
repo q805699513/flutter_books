@@ -43,7 +43,7 @@ class BookChaptersPageState extends State<BookChaptersPage> {
             icon: Image.asset(
               'images/icon_title_back.png',
               width: 20,
-              height: 48,
+              height: Dimens.titleHeight,
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -101,13 +101,13 @@ class BookChaptersPageState extends State<BookChaptersPage> {
             children: <Widget>[
               Text(
                 "${index + 1}.  ",
-                style: TextStyle(fontSize: 9, color: MyColors.textBlackL),
+                style: TextStyle(fontSize: 9, color: MyColors.textBlack9),
               ),
               Expanded(
                 child: Text(
                   _listBean[index].title,
                   style: TextStyle(
-                      fontSize: Dimens.textSizeM, color: MyColors.textBlackL),
+                      fontSize: Dimens.textSizeM, color: MyColors.textBlack9),
                 ),
               )
             ],

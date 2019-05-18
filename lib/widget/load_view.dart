@@ -28,7 +28,7 @@ class _LoadingViewState extends State<LoadingView>
   void initState() {
     super.initState();
     _controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1200));
+        vsync: this, duration: Duration(milliseconds: 800));
     _animation = IntTween(begin: 0, end: 10).animate(_controller)
       ..addListener(() {
         if (_position != _animation.value) {
@@ -49,13 +49,15 @@ class _LoadingViewState extends State<LoadingView>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        alignment: Alignment.center,
-        child: Image.asset(
-          _imageList[_animation.value],
-          width: 32,
-          height: 32,
-        ));
+    return Expanded(
+      child: Container(
+          alignment: Alignment.center,
+          child: Image.asset(
+            _imageList[_animation.value],
+            width: 43,
+            height: 43,
+          )),
+    );
   }
 
   dispose() {

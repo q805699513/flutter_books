@@ -76,7 +76,9 @@ class BookInfoPageState extends State<BookInfoPage> {
 
   Widget childLayout() {
     if (_loadStatus == LoadStatus.LOADING) {
-      return LoadingView();
+      return Row(children: <Widget>[
+          LoadingView(),
+      ],);
     } else {
       return Stack(
         alignment: Alignment.topLeft,
@@ -88,7 +90,7 @@ class BookInfoPageState extends State<BookInfoPage> {
             right: 0,
             left: 0,
             child: MaterialButton(
-              height: 48,
+              height: Dimens.titleHeight,
               color: MyColors.textPrimaryColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(0))),
@@ -107,7 +109,7 @@ class BookInfoPageState extends State<BookInfoPage> {
   Widget titleView() {
     return Container(
       color: _titleBgColor,
-      constraints: BoxConstraints.expand(height: 48),
+      constraints: BoxConstraints.expand(height: Dimens.titleHeight),
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
@@ -126,7 +128,7 @@ class BookInfoPageState extends State<BookInfoPage> {
                       'images/icon_title_back.png',
                       color: _iconColor,
                       width: 20,
-                      height: 48,
+                      height: Dimens.titleHeight,
                     ),
                   ),
                 ),
@@ -150,7 +152,7 @@ class BookInfoPageState extends State<BookInfoPage> {
                       'images/icon_share.png',
                       color: _iconColor,
                       width: 18,
-                      height: 48,
+                      height: Dimens.titleHeight,
                     ),
                   ),
                 ),
@@ -202,7 +204,7 @@ class BookInfoPageState extends State<BookInfoPage> {
                 Text(
                   "最新书评",
                   style: TextStyle(
-                      fontSize: Dimens.textSizeM, color: MyColors.textBlackH),
+                      fontSize: Dimens.textSizeM, color: MyColors.textBlack3),
                 ),
                 Expanded(
                   child: Container(),
@@ -237,7 +239,7 @@ class BookInfoPageState extends State<BookInfoPage> {
             color: MyColors.dividerColor,
             child: Text(
               "" + _bookInfoResp.copyrightDesc,
-              style: TextStyle(color: MyColors.textBlackL, fontSize: 12),
+              style: TextStyle(color: MyColors.textBlack9, fontSize: 12),
             ),
             padding: EdgeInsets.fromLTRB(0, 14, 0, 68),
           ),
@@ -376,7 +378,7 @@ class BookInfoPageState extends State<BookInfoPage> {
               ),
               Text(content,
                   style: TextStyle(
-                      color: MyColors.textBlackH, fontSize: Dimens.textSizeM)),
+                      color: MyColors.textBlack3, fontSize: Dimens.textSizeM)),
             ],
           ),
         ),
@@ -433,7 +435,7 @@ class BookInfoPageState extends State<BookInfoPage> {
                 children: <Widget>[
                   Text(name,
                       style: TextStyle(
-                          color: MyColors.textBlackM,
+                          color: MyColors.textBlack6,
                           fontSize: Dimens.textSizeL)),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
@@ -452,14 +454,14 @@ class BookInfoPageState extends State<BookInfoPage> {
           child: Text(
             content,
             style: TextStyle(
-                color: MyColors.textBlackH, fontSize: Dimens.textSizeL),
+                color: MyColors.textBlack3, fontSize: Dimens.textSizeL),
           ),
         ),
         Row(
           children: <Widget>[
             Text(
               "2019.05.09",
-              style: TextStyle(color: MyColors.textBlackL, fontSize: 12),
+              style: TextStyle(color: MyColors.textBlack9, fontSize: 12),
             ),
             Expanded(
               child: Container(),
@@ -484,7 +486,7 @@ class BookInfoPageState extends State<BookInfoPage> {
               padding: EdgeInsets.fromLTRB(2, 0, 20, 0),
               child: Text(
                 likeNum,
-                style: TextStyle(color: MyColors.textBlackL, fontSize: 12),
+                style: TextStyle(color: MyColors.textBlack9, fontSize: 12),
               ),
             ),
             Image.asset(

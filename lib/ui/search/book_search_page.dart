@@ -205,7 +205,7 @@ class BookSearchPageState extends State<BookSearchPage> {
                     ],
                   ),
                   SizedBox(
-                    height: 7,
+                    height: 5,
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.max,

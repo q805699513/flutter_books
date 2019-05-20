@@ -83,7 +83,7 @@ class _HomeTabListViewState extends State<HomeTabListView>
                         TextStyle(color: MyColors.textBlack6, fontSize: 14),
                   ),
                   SizedBox(
-                    height: 12,
+                    height: 9,
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.max,

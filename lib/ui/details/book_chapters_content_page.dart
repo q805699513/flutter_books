@@ -30,20 +30,19 @@ class BookContentPageState extends State<BookContentPage> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
+          reverse: false,
           padding: EdgeInsets.fromLTRB(
               Dimens.leftMargin, 16, Dimens.rightMargin, 16),
-          child: Text(
-            _content,
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                color: MyColors.textBlack3, fontSize: Dimens.textSizeM),
-          ),
+        child: Text(
+          _content,
+          style:
+              TextStyle(color: MyColors.textBlack3, fontSize: Dimens.textSizeM),
+        ),
         ),
       ),
     );
   }
 
-//  Text(_content)
   void getData() async {
     await Repository()
         .getBookChaptersContent(this.widget._bookUrl)

@@ -147,7 +147,7 @@ class BookSearchPageState extends State<BookSearchPage> {
 
   Widget _buildListViewItem(int position) {
     String imageUrl = Utils.convertImageUrl(_list[position].cover);
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         Navigator.push(
           context,
@@ -192,7 +192,7 @@ class BookSearchPageState extends State<BookSearchPage> {
                       ),
                       MaterialButton(
                         color: MyColors.textPrimaryColor,
-                        onPressed: () {},
+                        onPressed: null,
                         minWidth: 10,
                         height: 32,
                         child: Text(

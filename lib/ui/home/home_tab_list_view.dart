@@ -7,7 +7,9 @@ import 'package:flutter_books/res/dimens.dart';
 import 'package:flutter_books/ui/details/book_info_page.dart';
 import 'package:flutter_books/util/utils.dart';
 
-// ignore: must_be_immutable
+///@author longshaohua
+///书城 ListView
+
 class HomeTabListView extends StatefulWidget {
   final String major;
   final String gender;
@@ -44,7 +46,7 @@ class _HomeTabListViewState extends State<HomeTabListView>
 
   Widget _buildListViewItem(int position) {
     String imageUrl = Utils.convertImageUrl(_list[position].cover);
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         Navigator.push(
           context,

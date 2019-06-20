@@ -8,6 +8,9 @@ import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
 import 'package:flutter_books/ui/details/book_chapters_content_page.dart';
 
+///@author longshaohua
+///小说目录章节页
+
 class BookChaptersPage extends StatefulWidget {
   final String _bookId;
 

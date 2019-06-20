@@ -2,7 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
+import 'package:flutter_books/ui/bookshelf/bookshelf_page.dart';
 import 'package:flutter_books/ui/home/home_page.dart';
+
+///@author longshaohua
+///小说首页
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -25,7 +29,7 @@ class _MyHomePageState extends State {
     return new Scaffold(
       body: IndexedStack(
         children: <Widget>[
-          Text('书架'),
+          BookshelfPage(),
           TabHomePage(),
           Text('我的'),
         ],

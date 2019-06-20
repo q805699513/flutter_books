@@ -11,6 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 ///@author longshaohua
 ///详情页
+
 class BookInfoPage extends StatefulWidget {
   final String _bookId;
 

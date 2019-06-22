@@ -15,7 +15,7 @@ class _TabHomePageState extends State<TabHomePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 6,
+        length: 4,
         child: Scaffold(
           body: SafeArea(
             child: Column(

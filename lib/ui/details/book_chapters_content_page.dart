@@ -22,6 +22,7 @@ class BookContentPage extends StatefulWidget {
 class BookContentPageState extends State<BookContentPage> {
   String _content = "";
   bool _isSettingGone = false;
+  double _padding = 0;
 
   @override
   void initState() {
@@ -35,25 +36,34 @@ class BookContentPageState extends State<BookContentPage> {
       body: SafeArea(
         child: Stack(
           children: <Widget>[
-            SingleChildScrollView(
-              reverse: false,
-              padding: EdgeInsets.fromLTRB(
-                  Dimens.leftMargin, 16, Dimens.rightMargin, 16),
-              child: Text(
-                _content,
-                style: TextStyle(
-                  color: MyColors.textBlack3,
-                  fontSize: Dimens.textSizeM,
-                  letterSpacing: 2,
-                  wordSpacing: 2,
-                  height: 1.1,
+            GestureDetector(
+              onTap: () {
+                setState(() {
+//                  _isSettingGone = !_isSettingGone;
+                  if (_padding == 0) {
+                    _padding = 48;
+                  } else {
+                    _padding = 0;
+                  }
+                });
+              },
+              child: SingleChildScrollView(
+                reverse: false,
+                padding: EdgeInsets.fromLTRB(
+                    Dimens.leftMargin, 16, Dimens.rightMargin, 16),
+                child: Text(
+                  _content,
+                  style: TextStyle(
+                    color: MyColors.textBlack3,
+                    fontSize: Dimens.textSizeM,
+                    letterSpacing: 1,
+                    wordSpacing: 1,
+                    height: 1.2,
+                  ),
                 ),
               ),
             ),
-            Offstage(
-              child: settingView(),
-              offstage: _isSettingGone,
-            )
+            settingView(),
           ],
         ),
       ),
@@ -64,45 +74,59 @@ class BookContentPageState extends State<BookContentPage> {
     return Stack(
       children: <Widget>[
         Container(
-          color: Color(0xFF3B3B3A),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        Dimens.leftMargin, 0, Dimens.rightMargin, 0),
-                    child: Image.asset(
-                      'images/icon_title_back.png',
-                      width: 20,
-                      height: Dimens.titleHeight,
+          height: 48,
+          child: AnimatedPadding(
+            duration: Duration(milliseconds: 200),
+            padding: EdgeInsets.fromLTRB(0, 0, 0, _padding),
+            child: Container(
+              height: 48,
+              color: Color(0xFF3B3B3A),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            Dimens.leftMargin, 0, Dimens.rightMargin, 0),
+                        child: Image.asset(
+                          'images/icon_title_back.png',
+                          width: 20,
+                          height: Dimens.titleHeight,
+                          color: MyColors.white,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              Expanded(child: SizedBox()),
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        Dimens.leftMargin, 0, Dimens.rightMargin, 0),
-                    child: Text("详情",style: TextStyle(fontSize: Dimens.textSizeL),),
+                  Expanded(child: SizedBox()),
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            Dimens.leftMargin, 0, Dimens.rightMargin, 0),
+                        child: Text(
+                          "详情",
+                          style: TextStyle(
+                              fontSize: Dimens.textSizeL,
+                              color: MyColors.white),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
-        )
+        ),
       ],
     );
   }

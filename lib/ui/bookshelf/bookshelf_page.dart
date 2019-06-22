@@ -78,7 +78,7 @@ class BookshelfPageState extends State<BookshelfPage> {
                     Dimens.leftMargin, 0, Dimens.rightMargin, 0),
                 child: Image.asset(
                   'images/icon_bookshelf_search.png',
-                  width: 18,
+                  width: 20,
                   height: Dimens.titleHeight,
                 ),
               ),

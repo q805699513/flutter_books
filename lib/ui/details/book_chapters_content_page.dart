@@ -23,6 +23,8 @@ class BookContentPageState extends State<BookContentPage> {
   String _content = "";
   bool _isSettingGone = false;
   double _padding = 0;
+  double _imagePadding = 0;
+  int _duration = 249;
 
   @override
   void initState() {
@@ -40,11 +42,8 @@ class BookContentPageState extends State<BookContentPage> {
               onTap: () {
                 setState(() {
 //                  _isSettingGone = !_isSettingGone;
-                  if (_padding == 0) {
-                    _padding = 48;
-                  } else {
-                    _padding = 0;
-                  }
+                  _padding == 0 ? _padding = 48 : _padding = 0;
+                  _imagePadding == 0 ? _imagePadding = 18 : _imagePadding = 0;
                 });
               },
               child: SingleChildScrollView(
@@ -55,7 +54,7 @@ class BookContentPageState extends State<BookContentPage> {
                   _content,
                   style: TextStyle(
                     color: MyColors.textBlack3,
-                    fontSize: Dimens.textSizeM,
+                    fontSize: Dimens.titleTextSize,
                     letterSpacing: 1,
                     wordSpacing: 1,
                     height: 1.2,
@@ -71,16 +70,18 @@ class BookContentPageState extends State<BookContentPage> {
   }
 
   Widget settingView() {
-    return Stack(
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
           height: 48,
           child: AnimatedPadding(
-            duration: Duration(milliseconds: 200),
+            duration: Duration(milliseconds: _duration),
             padding: EdgeInsets.fromLTRB(0, 0, 0, _padding),
             child: Container(
               height: 48,
-              color: Color(0xFF3B3B3A),
+              color: Color(0xF6333333),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -98,7 +99,7 @@ class BookContentPageState extends State<BookContentPage> {
                           'images/icon_title_back.png',
                           width: 20,
                           height: Dimens.titleHeight,
-                          color: MyColors.white,
+                          color: MyColors.contentColor,
                         ),
                       ),
                     ),
@@ -111,13 +112,12 @@ class BookContentPageState extends State<BookContentPage> {
                         Navigator.pop(context);
                       },
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(
-                            Dimens.leftMargin, 0, Dimens.rightMargin, 0),
-                        child: Text(
-                          "详情",
-                          style: TextStyle(
-                              fontSize: Dimens.textSizeL,
-                              color: MyColors.white),
+                        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        child: Image.asset(
+                          'images/icon_bookshelf_more.png',
+                          width: 3.0,
+                          height: Dimens.titleHeight,
+                          color: MyColors.contentColor,
                         ),
                       ),
                     ),
@@ -127,6 +127,39 @@ class BookContentPageState extends State<BookContentPage> {
             ),
           ),
         ),
+        Expanded(child: SizedBox()),
+        Container(
+          margin: EdgeInsets.fromLTRB(Dimens.leftMargin, 0, 0, 0),
+          width: 36,
+          height: 36,
+          child: AnimatedPadding(
+            duration: Duration(milliseconds: _duration),
+            padding: EdgeInsets.fromLTRB(
+                _imagePadding, _imagePadding, _imagePadding, _imagePadding),
+            child: InkWell(
+              onTap: () {},
+              child: Image.asset(
+                "images/icon_content_nighttime.png",
+                height: 36,
+                width: 36,
+              ),
+            ),
+          ),
+        ),
+        Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Text(
+                  "字体",
+                  style: TextStyle(color: MyColors.contentColor),
+                )
+
+
+              ],
+            )
+          ],
+        )
       ],
     );
   }

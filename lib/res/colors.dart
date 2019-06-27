@@ -5,7 +5,9 @@ class MyColors{
   static final Color white = Color(0xFFFFFFFF);
   static final Color black = Color(0xFF000000);
 
-  static final Color contentColor = Color(0xFF888888);
+  static final Color contentColor = Color(0xFFAAAAAA);
+  static final Color contentBgColor = Color(0xFA303030);
+
 
   static final Color primary = Color(0xFFFFFFFF);
   static final Color textPrimaryColor = Color(0xFF33C3A5);

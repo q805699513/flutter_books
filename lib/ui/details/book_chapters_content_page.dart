@@ -55,7 +55,7 @@ class BookContentPageState extends State<BookContentPage> {
                 child: Text(
                   _content,
                   style: TextStyle(
-                    color: MyColors.textBlack3,
+                    color: MyColors.black,
                     fontSize: _textSizeValue,
                     letterSpacing: 1,
                     wordSpacing: 1,
@@ -83,7 +83,7 @@ class BookContentPageState extends State<BookContentPage> {
             padding: EdgeInsets.fromLTRB(0, 0, 0, _padding),
             child: Container(
               height: 48,
-              color: Color(0xF6333333),
+              color: MyColors.contentBgColor,
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,8 +148,13 @@ class BookContentPageState extends State<BookContentPage> {
             ),
           ),
         ),
+        SizedBox(
+          height: 20,
+        ),
         Container(
-          color: Color(0xF6333333),
+          padding: EdgeInsets.fromLTRB(Dimens.leftMargin, Dimens.leftMargin,
+              Dimens.rightMargin, Dimens.leftMargin),
+          color: MyColors.contentBgColor,
           child: Column(
             children: <Widget>[
               Row(
@@ -158,21 +163,39 @@ class BookContentPageState extends State<BookContentPage> {
                 children: <Widget>[
                   Text(
                     "字号",
-                    style: TextStyle(color: MyColors.contentColor),
+                    style: TextStyle(
+                        color: MyColors.contentColor,
+                        fontSize: Dimens.textSizeM),
                   ),
-                  Slider(
-                    value: _textSizeValue,
-                    label: "字号：$_textSizeValue",
-                    divisions: 20,
-                    min: 10,
-                    max: 30,
-                    onChanged: (double value) {
-                      setState(() {
-                        _textSizeValue = value;
-                      });
-                    },
+                  Expanded(
+                    child: SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        valueIndicatorColor: MyColors.textPrimaryColor,
+                        inactiveTrackColor: MyColors.white,
+                        activeTrackColor: MyColors.textPrimaryColor,
+                        activeTickMarkColor: Colors.transparent,
+                        trackHeight: 2.5,
+                        thumbShape:
+                            RoundSliderThumbShape(enabledThumbRadius: 8),
+                      ),
+                      child: Slider(
+                        value: _textSizeValue,
+                        label: "字号：$_textSizeValue",
+                        divisions: 20,
+                        min: 10,
+                        max: 30,
+                        onChanged: (double value) {
+                          setState(() {
+                            _textSizeValue = value;
+                          });
+                        },
+                      ),
+                    ),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 12,
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -180,22 +203,66 @@ class BookContentPageState extends State<BookContentPage> {
                 children: <Widget>[
                   Text(
                     "间距",
-                    style: TextStyle(color: MyColors.contentColor),
+                    style: TextStyle(
+                        color: MyColors.contentColor,
+                        fontSize: Dimens.textSizeM),
                   ),
-                  Slider(
-                    value: _spaceValue,
-                    label: "字间距：$_spaceValue",
-                    min: 1.0,
-                    divisions: 40,
-                    max: 5.0,
-                    onChanged: (double value) {
-                      setState(() {
-                        _spaceValue = value;
-                      });
-                    },
+                  Expanded(
+                    child: SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        valueIndicatorColor: MyColors.textPrimaryColor,
+                        inactiveTrackColor: MyColors.white,
+                        activeTrackColor: MyColors.textPrimaryColor,
+                        activeTickMarkColor: Colors.transparent,
+                        trackHeight: 2.5,
+                        thumbShape:
+                            RoundSliderThumbShape(enabledThumbRadius: 8),
+                      ),
+                      child: Slider(
+                        value: _spaceValue,
+                        label: "字间距：$_spaceValue",
+                        min: 1.0,
+                        divisions: 40,
+                        max: 5.0,
+                        onChanged: (double value) {
+                          setState(() {
+                            _spaceValue = value;
+                          });
+                        },
+                      ),
+                    ),
                   ),
                 ],
               ),
+              SizedBox(
+                height: 32,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Expanded(
+                    child: Image.asset("images/icon_content_catalog.png"),
+                  ),
+                  SizedBox(
+                    width: 80,
+                  ),
+                  Expanded(
+                    child: Image.asset("images/icon_content_setting.png"),
+                  ),
+                  SizedBox(
+                    width: 80,
+                  ),
+                  Expanded(
+                    child: Image.asset("images/icon_content_brightness.png"),
+                  ),
+                  SizedBox(
+                    width: 80,
+                  ),
+                  Expanded(
+                    child: Image.asset("images/icon_content_read.png"),
+                  ),
+                ],
+              )
             ],
           ),
         ),

@@ -25,6 +25,8 @@ class BookContentPageState extends State<BookContentPage> {
   double _padding = 0;
   double _imagePadding = 0;
   int _duration = 249;
+  double _spaceValue = 1.2;
+  double _textSizeValue = 18;
 
   @override
   void initState() {
@@ -54,10 +56,10 @@ class BookContentPageState extends State<BookContentPage> {
                   _content,
                   style: TextStyle(
                     color: MyColors.textBlack3,
-                    fontSize: Dimens.titleTextSize,
+                    fontSize: _textSizeValue,
                     letterSpacing: 1,
                     wordSpacing: 1,
-                    height: 1.2,
+                    height: _spaceValue,
                   ),
                 ),
               ),
@@ -146,20 +148,57 @@ class BookContentPageState extends State<BookContentPage> {
             ),
           ),
         ),
-        Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Text(
-                  "字体",
-                  style: TextStyle(color: MyColors.contentColor),
-                )
-
-
-              ],
-            )
-          ],
-        )
+        Container(
+          color: Color(0xF6333333),
+          child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "字号",
+                    style: TextStyle(color: MyColors.contentColor),
+                  ),
+                  Slider(
+                    value: _textSizeValue,
+                    label: "字号：$_textSizeValue",
+                    divisions: 20,
+                    min: 10,
+                    max: 30,
+                    onChanged: (double value) {
+                      setState(() {
+                        _textSizeValue = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "间距",
+                    style: TextStyle(color: MyColors.contentColor),
+                  ),
+                  Slider(
+                    value: _spaceValue,
+                    label: "字间距：$_spaceValue",
+                    min: 1.0,
+                    divisions: 40,
+                    max: 5.0,
+                    onChanged: (double value) {
+                      setState(() {
+                        _spaceValue = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

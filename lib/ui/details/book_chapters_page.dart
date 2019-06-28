@@ -69,10 +69,10 @@ class BookChaptersPageState extends State<BookChaptersPage> {
   void getData() async {
     GenuineSourceReq genuineSourceReq =
         GenuineSourceReq("summary", this.widget._bookId);
-    var entrypoint =
+    var entryPoint =
         await Repository().getBookGenuineSource(genuineSourceReq.toJson());
     BookGenuineSourceResp bookGenuineSourceResp =
-        BookGenuineSourceResp(entrypoint);
+        BookGenuineSourceResp(entryPoint);
     if (bookGenuineSourceResp.data != null &&
         bookGenuineSourceResp.data.length > 0) {
       await Repository().getBookChapters(bookGenuineSourceResp.data[0].id).then((json) {

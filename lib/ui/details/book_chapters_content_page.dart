@@ -23,6 +23,8 @@ class BookContentPageState extends State<BookContentPage> {
   String _content = "";
   bool _isSettingGone = false;
   double _padding = 0;
+  double _bottomPadding = 0;
+
   double _imagePadding = 0;
   int _duration = 249;
   double _spaceValue = 1.2;
@@ -44,6 +46,9 @@ class BookContentPageState extends State<BookContentPage> {
               onTap: () {
                 setState(() {
 //                  _isSettingGone = !_isSettingGone;
+                  _bottomPadding == 0
+                      ? _bottomPadding = 200
+                      : _bottomPadding = 0;
                   _padding == 0 ? _padding = 48 : _padding = 0;
                   _imagePadding == 0 ? _imagePadding = 18 : _imagePadding = 0;
                 });
@@ -152,118 +157,152 @@ class BookContentPageState extends State<BookContentPage> {
           height: 20,
         ),
         Container(
-          padding: EdgeInsets.fromLTRB(Dimens.leftMargin, Dimens.leftMargin,
-              Dimens.rightMargin, Dimens.leftMargin),
-          color: MyColors.contentBgColor,
-          child: Column(
-            children: <Widget>[
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
+          height: 200,
+          child: AnimatedPadding(
+            duration: Duration(milliseconds: _duration),
+            padding: EdgeInsets.fromLTRB(0, _bottomPadding, 0, 0),
+            child: Container(
+              height: 200,
+              padding: EdgeInsets.fromLTRB(
+                  Dimens.leftMargin, 20, Dimens.rightMargin, Dimens.leftMargin),
+              color: MyColors.contentBgColor,
+              child: Column(
                 children: <Widget>[
-                  Text(
-                    "字号",
-                    style: TextStyle(
-                        color: MyColors.contentColor,
-                        fontSize: Dimens.textSizeM),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "字号",
+                        style: TextStyle(
+                            color: MyColors.contentColor,
+                            fontSize: Dimens.textSizeM),
+                      ),
+                      SizedBox(
+                        width: 14,
+                      ),
+                      Image.asset(
+                        "images/icon_content_font_small.png",
+                        color: MyColors.white,
+                        width: 28,
+                        height: 18,
+                      ),
+                      Expanded(
+                        child: SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            valueIndicatorColor: MyColors.textPrimaryColor,
+                            inactiveTrackColor: MyColors.white,
+                            activeTrackColor: MyColors.textPrimaryColor,
+                            activeTickMarkColor: Colors.transparent,
+                            trackHeight: 2.5,
+                            thumbShape:
+                                RoundSliderThumbShape(enabledThumbRadius: 8),
+                          ),
+                          child: Slider(
+                            value: _textSizeValue,
+                            label: "字号：$_textSizeValue",
+                            divisions: 20,
+                            min: 10,
+                            max: 30,
+                            onChanged: (double value) {
+                              setState(() {
+                                _textSizeValue = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      Image.asset(
+                        "images/icon_content_font_big.png",
+                        color: MyColors.white,
+                        width: 28,
+                        height: 18,
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: SliderTheme(
-                      data: SliderTheme.of(context).copyWith(
-                        valueIndicatorColor: MyColors.textPrimaryColor,
-                        inactiveTrackColor: MyColors.white,
-                        activeTrackColor: MyColors.textPrimaryColor,
-                        activeTickMarkColor: Colors.transparent,
-                        trackHeight: 2.5,
-                        thumbShape:
-                            RoundSliderThumbShape(enabledThumbRadius: 8),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "间距",
+                        style: TextStyle(
+                            color: MyColors.contentColor,
+                            fontSize: Dimens.textSizeM),
                       ),
-                      child: Slider(
-                        value: _textSizeValue,
-                        label: "字号：$_textSizeValue",
-                        divisions: 20,
-                        min: 10,
-                        max: 30,
-                        onChanged: (double value) {
-                          setState(() {
-                            _textSizeValue = value;
-                          });
-                        },
+                      SizedBox(
+                        width: 14,
                       ),
-                    ),
+                      Image.asset(
+                        "images/icon_content_space_big.png",
+                        color: MyColors.white,
+                        width: 28,
+                        height: 18,
+                      ),
+                      Expanded(
+                        child: SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            valueIndicatorColor: MyColors.textPrimaryColor,
+                            inactiveTrackColor: MyColors.white,
+                            activeTrackColor: MyColors.textPrimaryColor,
+                            activeTickMarkColor: Colors.transparent,
+                            trackHeight: 2.5,
+                            thumbShape:
+                                RoundSliderThumbShape(enabledThumbRadius: 8),
+                          ),
+                          child: Slider(
+                            value: _spaceValue,
+                            label: "字间距：$_spaceValue",
+                            min: 1.0,
+                            divisions: 20,
+                            max: 3.0,
+                            onChanged: (double value) {
+                              setState(() {
+                                _spaceValue = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      Image.asset(
+                        "images/icon_content_space_small.png",
+                        color: MyColors.white,
+                        width: 28,
+                        height: 18,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 32,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Image.asset(
+                        "images/icon_content_catalog.png",
+                        height: 50,
+                      ),
+                      Image.asset(
+                        "images/icon_content_setting.png",
+                        height: 50,
+                      ),
+                      Image.asset(
+                        "images/icon_content_brightness.png",
+                        height: 50,
+                      ),
+                      Image.asset(
+                        "images/icon_content_read.png",
+                        height: 50,
+                      ),
+                    ],
                   ),
                 ],
               ),
-              SizedBox(
-                height: 12,
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "间距",
-                    style: TextStyle(
-                        color: MyColors.contentColor,
-                        fontSize: Dimens.textSizeM),
-                  ),
-                  Expanded(
-                    child: SliderTheme(
-                      data: SliderTheme.of(context).copyWith(
-                        valueIndicatorColor: MyColors.textPrimaryColor,
-                        inactiveTrackColor: MyColors.white,
-                        activeTrackColor: MyColors.textPrimaryColor,
-                        activeTickMarkColor: Colors.transparent,
-                        trackHeight: 2.5,
-                        thumbShape:
-                            RoundSliderThumbShape(enabledThumbRadius: 8),
-                      ),
-                      child: Slider(
-                        value: _spaceValue,
-                        label: "字间距：$_spaceValue",
-                        min: 1.0,
-                        divisions: 40,
-                        max: 5.0,
-                        onChanged: (double value) {
-                          setState(() {
-                            _spaceValue = value;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 32,
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Expanded(
-                    child: Image.asset("images/icon_content_catalog.png"),
-                  ),
-                  SizedBox(
-                    width: 80,
-                  ),
-                  Expanded(
-                    child: Image.asset("images/icon_content_setting.png"),
-                  ),
-                  SizedBox(
-                    width: 80,
-                  ),
-                  Expanded(
-                    child: Image.asset("images/icon_content_brightness.png"),
-                  ),
-                  SizedBox(
-                    width: 80,
-                  ),
-                  Expanded(
-                    child: Image.asset("images/icon_content_read.png"),
-                  ),
-                ],
-              )
-            ],
+            ),
           ),
         ),
       ],
@@ -276,7 +315,7 @@ class BookContentPageState extends State<BookContentPage> {
         .then((json) {
       BookContentResp bookContentResp = BookContentResp(json);
       setState(() {
-        ///部分小说文字有问题，需要特殊处理
+        ///部分小说文字排版有问题，需要特殊处理
         _content = bookContentResp.chapter.cpContent
             .replaceAll("\t", "\n")
             .replaceAll("\n\n\n\n", "\n\n");

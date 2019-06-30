@@ -22,9 +22,8 @@ class BookContentPage extends StatefulWidget {
 class BookContentPageState extends State<BookContentPage> {
   String _content = "";
   bool _isSettingGone = false;
-  double _padding = 0;
+  double _height = 48;
   double _bottomPadding = 0;
-
   double _imagePadding = 0;
   int _duration = 249;
   double _spaceValue = 1.2;
@@ -39,6 +38,18 @@ class BookContentPageState extends State<BookContentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: Column(
+          children: <Widget>[
+            DrawerHeader(
+              child: Row(
+
+              ),
+            ),
+
+          ],
+        ),
+      ),
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -49,7 +60,7 @@ class BookContentPageState extends State<BookContentPage> {
                   _bottomPadding == 0
                       ? _bottomPadding = 200
                       : _bottomPadding = 0;
-                  _padding == 0 ? _padding = 48 : _padding = 0;
+                  _height == 48 ? _height = 0 : _height = 48;
                   _imagePadding == 0 ? _imagePadding = 18 : _imagePadding = 0;
                 });
               },
@@ -81,56 +92,53 @@ class BookContentPageState extends State<BookContentPage> {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Container(
-          height: 48,
-          child: AnimatedPadding(
-            duration: Duration(milliseconds: _duration),
-            padding: EdgeInsets.fromLTRB(0, 0, 0, _padding),
-            child: Container(
-              height: 48,
-              color: MyColors.contentBgColor,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(
-                            Dimens.leftMargin, 0, Dimens.rightMargin, 0),
-                        child: Image.asset(
-                          'images/icon_title_back.png',
-                          width: 20,
-                          height: Dimens.titleHeight,
-                          color: MyColors.contentColor,
-                        ),
+        AnimatedContainer(
+          height: _height,
+          duration: Duration(milliseconds: _duration),
+          child: Container(
+            height: 48,
+            color: MyColors.contentBgColor,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          Dimens.leftMargin, 0, Dimens.rightMargin, 0),
+                      child: Image.asset(
+                        'images/icon_title_back.png',
+                        width: 20,
+                        height: Dimens.titleHeight,
+                        color: MyColors.contentColor,
                       ),
                     ),
                   ),
-                  Expanded(child: SizedBox()),
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        child: Image.asset(
-                          'images/icon_bookshelf_more.png',
-                          width: 3.0,
-                          height: Dimens.titleHeight,
-                          color: MyColors.contentColor,
-                        ),
+                ),
+                Expanded(child: SizedBox()),
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      child: Image.asset(
+                        'images/icon_bookshelf_more.png',
+                        width: 3.0,
+                        height: Dimens.titleHeight,
+                        color: MyColors.contentColor,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -282,9 +290,14 @@ class BookContentPageState extends State<BookContentPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
-                      Image.asset(
-                        "images/icon_content_catalog.png",
-                        height: 50,
+                      InkWell(
+                        onTap: () {
+                          print("");
+                        },
+                        child: Image.asset(
+                          "images/icon_content_catalog.png",
+                          height: 50,
+                        ),
                       ),
                       Image.asset(
                         "images/icon_content_setting.png",

@@ -24,6 +24,7 @@ class BookChaptersPage extends StatefulWidget {
 
 class BookChaptersPageState extends State<BookChaptersPage> {
   List<BookChaptersBean> _listBean = [];
+  ScrollController _controller = ScrollController();
 
   @override
   void initState() {
@@ -35,24 +36,13 @@ class BookChaptersPageState extends State<BookChaptersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 0,
         centerTitle: true,
-        title: Text(
-          "目录",
-          style: TextStyle(
-              fontSize: Dimens.titleTextSize, color: MyColors.titleTextColor),
-          overflow: TextOverflow.ellipsis,
-        ),
-        leading: IconButton(
-            icon: Image.asset(
-              'images/icon_title_back.png',
-              width: 20,
-              height: Dimens.titleHeight,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
+        automaticallyImplyLeading: false,
+        title: titleView(),
       ),
       body: new ListView.separated(
+        controller: _controller,
         padding:
             EdgeInsets.fromLTRB(Dimens.leftMargin, 0, Dimens.rightMargin, 0),
         itemCount: _listBean.length,
@@ -66,6 +56,61 @@ class BookChaptersPageState extends State<BookChaptersPage> {
     );
   }
 
+  Widget titleView() {
+    return Container(
+      constraints: BoxConstraints.expand(height: Dimens.titleHeight),
+      child: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Positioned(
+            left: 0,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      Dimens.leftMargin, 0, Dimens.rightMargin, 0),
+                  child: Image.asset(
+                    'images/icon_title_back.png',
+                    width: 20,
+                    height: Dimens.titleHeight,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _listBean = _listBean.reversed.toList();
+              });
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "目录",
+                  style: TextStyle(
+                      fontSize: Dimens.titleTextSize,
+                      color: MyColors.textPrimaryColor),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Image.asset(
+                  "images/icon_chapters_turn.png",
+                  width: 16,
+                  height: 16,
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   void getData() async {
     GenuineSourceReq genuineSourceReq =
         GenuineSourceReq("summary", this.widget._bookId);
@@ -75,7 +120,9 @@ class BookChaptersPageState extends State<BookChaptersPage> {
         BookGenuineSourceResp(entryPoint);
     if (bookGenuineSourceResp.data != null &&
         bookGenuineSourceResp.data.length > 0) {
-      await Repository().getBookChapters(bookGenuineSourceResp.data[0].id).then((json) {
+      await Repository()
+          .getBookChapters(bookGenuineSourceResp.data[0].id)
+          .then((json) {
         BookChaptersResp bookChaptersResp = BookChaptersResp(json);
         setState(() {
           _listBean = bookChaptersResp.chapters;

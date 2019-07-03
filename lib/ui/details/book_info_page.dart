@@ -77,34 +77,36 @@ class BookInfoPageState extends State<BookInfoPage> {
 
   Widget childLayout() {
     if (_loadStatus == LoadStatus.LOADING) {
-      return Row(children: <Widget>[
-          LoadingView(),
-      ],);
-    } else {
-      return Stack(
-        alignment: Alignment.topLeft,
+      return Row(
         children: <Widget>[
-          contentView(),
-          titleView(),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            left: 0,
-            child: MaterialButton(
-              height: Dimens.titleHeight,
-              color: MyColors.textPrimaryColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(0))),
-              onPressed: () {},
-              child: Text(
-                "开始阅读",
-                style: TextStyle(color: MyColors.white, fontSize: 16),
-              ),
-            ),
-          )
+          LoadingView(),
         ],
       );
     }
+
+    return Stack(
+      alignment: Alignment.topLeft,
+      children: <Widget>[
+        contentView(),
+        titleView(),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          left: 0,
+          child: MaterialButton(
+            height: Dimens.titleHeight,
+            color: MyColors.textPrimaryColor,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(0))),
+            onPressed: () {},
+            child: Text(
+              "开始阅读",
+              style: TextStyle(color: MyColors.white, fontSize: 16),
+            ),
+          ),
+        )
+      ],
+    );
   }
 
   Widget titleView() {
@@ -360,7 +362,8 @@ class BookInfoPageState extends State<BookInfoPage> {
           if (tap == 1) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (content) => BookChaptersPage(this.widget._bookId)),
+              MaterialPageRoute(
+                  builder: (content) => BookChaptersPage(this.widget._bookId)),
             );
           }
         },
@@ -522,5 +525,4 @@ class BookInfoPageState extends State<BookInfoPage> {
       print("---走了2" + e.toString());
     });
   }
-
 }

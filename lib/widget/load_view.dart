@@ -27,8 +27,8 @@ class _LoadingViewState extends State<LoadingView>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 800));
+    _controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 800));
     _animation = IntTween(begin: 0, end: 10).animate(_controller)
       ..addListener(() {
         if (_position != _animation.value) {
@@ -56,6 +56,7 @@ class _LoadingViewState extends State<LoadingView>
             _imageList[_animation.value],
             width: 43,
             height: 43,
+            gaplessPlayback: true,
           )),
     );
   }
@@ -63,6 +64,18 @@ class _LoadingViewState extends State<LoadingView>
   dispose() {
     _controller.dispose();
     super.dispose();
+  }
+}
+
+class FailureView extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _FailureViewState();
+}
+
+class _FailureViewState extends State<FailureView> {
+  @override
+  Widget build(BuildContext context) {
+    return null;
   }
 }
 

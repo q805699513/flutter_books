@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_books/data/model/response/book_content_resp.dart';
 import 'package:flutter_books/data/repository/repository.dart';
@@ -29,60 +32,69 @@ class BookContentPageState extends State<BookContentPage> {
   double _spaceValue = 1.2;
   double _textSizeValue = 18;
 
+  bool _isNighttime = false;
+
   @override
   void initState() {
     super.initState();
     getData();
+    setStemStyle();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: _isNighttime ? Colors.black : Colors.white,
       drawer: Drawer(
         child: Column(
           children: <Widget>[
             DrawerHeader(
-              child: Row(
-
-              ),
+              child: Row(),
             ),
-
           ],
         ),
       ),
-      body: SafeArea(
-        child: Stack(
-          children: <Widget>[
-            GestureDetector(
-              onTap: () {
-                setState(() {
+      body: Stack(
+        children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              setState(() {
 //                  _isSettingGone = !_isSettingGone;
-                  _bottomPadding == 0
-                      ? _bottomPadding = 200
-                      : _bottomPadding = 0;
-                  _height == 48 ? _height = 0 : _height = 48;
-                  _imagePadding == 0 ? _imagePadding = 18 : _imagePadding = 0;
-                });
-              },
-              child: SingleChildScrollView(
-                reverse: false,
-                padding: EdgeInsets.fromLTRB(
-                    Dimens.leftMargin, 16, Dimens.rightMargin, 16),
-                child: Text(
-                  _content,
-                  style: TextStyle(
-                    color: MyColors.black,
-                    fontSize: _textSizeValue,
-                    letterSpacing: 1,
-                    wordSpacing: 1,
-                    height: _spaceValue,
-                  ),
+                _bottomPadding == 0 ? _bottomPadding = 200 : _bottomPadding = 0;
+                _height == 48 ? _height = 0 : _height = 48;
+                _imagePadding == 0 ? _imagePadding = 18 : _imagePadding = 0;
+              });
+            },
+            child: SingleChildScrollView(
+              reverse: false,
+              padding: EdgeInsets.fromLTRB(
+                Dimens.leftMargin,
+                16 + MediaQuery.of(context).padding.top,
+                Dimens.rightMargin,
+                16,
+              ),
+              child: Text(
+                _content,
+                style: TextStyle(
+                  color: _isNighttime ? MyColors.contentColor : MyColors.black,
+                  fontSize: _textSizeValue,
+                  letterSpacing: 1,
+                  wordSpacing: 1,
+                  height: _spaceValue,
                 ),
               ),
             ),
-            settingView(),
-          ],
-        ),
+          ),
+          settingView(),
+          Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: MediaQuery.of(context).padding.top,
+                color: Colors.black,
+              ))
+        ],
       ),
     );
   }
@@ -92,6 +104,9 @@ class BookContentPageState extends State<BookContentPage> {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        SizedBox(
+          height: MediaQuery.of(context).padding.top,
+        ),
         AnimatedContainer(
           height: _height,
           duration: Duration(milliseconds: _duration),
@@ -152,9 +167,15 @@ class BookContentPageState extends State<BookContentPage> {
             padding: EdgeInsets.fromLTRB(
                 _imagePadding, _imagePadding, _imagePadding, _imagePadding),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                setState(() {
+                  _isNighttime = !_isNighttime;
+                });
+              },
               child: Image.asset(
-                "images/icon_content_nighttime.png",
+                _isNighttime
+                    ? "images/icon_content_daytime.png"
+                    : "images/icon_content_nighttime.png",
                 height: 36,
                 width: 36,
               ),
@@ -337,5 +358,10 @@ class BookContentPageState extends State<BookContentPage> {
       //请求出错
       print(e.toString());
     });
+  }
+
+  void setStemStyle() async {
+    await Future.delayed(const Duration(milliseconds: 500),
+        () => SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light));
   }
 }

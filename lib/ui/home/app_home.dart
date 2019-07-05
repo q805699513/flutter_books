@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
 import 'package:flutter_books/ui/bookshelf/bookshelf_page.dart';
@@ -10,19 +11,39 @@ import 'package:flutter_books/ui/home/home_page.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() =>_MyHomePageState();
+  State<StatefulWidget> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State {
+  static const platform = const MethodChannel("samples.flutter.io/permission");
   int _tabIndex = 0;
- final List<Image> _tabImages = [
-    Image.asset('images/icon_tab_bookshelf_n.png', width: Dimens.homeImageSize, height: Dimens.homeImageSize),
-    Image.asset('images/icon_tab_bookshelf_p.png', width: Dimens.homeImageSize, height: Dimens.homeImageSize),
-    Image.asset('images/icon_tab_home_n.png', width: Dimens.homeImageSize, height: Dimens.homeImageSize),
-    Image.asset('images/icon_tab_home_p.png', width: Dimens.homeImageSize, height: Dimens.homeImageSize),
-    Image.asset('images/icon_tab_me_n.png', width: Dimens.homeImageSize, height: Dimens.homeImageSize),
-    Image.asset('images/icon_tab_me_p.png', width: Dimens.homeImageSize, height: Dimens.homeImageSize),
+  final List<Image> _tabImages = [
+    Image.asset('images/icon_tab_bookshelf_n.png',
+        width: Dimens.homeImageSize, height: Dimens.homeImageSize),
+    Image.asset('images/icon_tab_bookshelf_p.png',
+        width: Dimens.homeImageSize, height: Dimens.homeImageSize),
+    Image.asset('images/icon_tab_home_n.png',
+        width: Dimens.homeImageSize, height: Dimens.homeImageSize),
+    Image.asset('images/icon_tab_home_p.png',
+        width: Dimens.homeImageSize, height: Dimens.homeImageSize),
+    Image.asset('images/icon_tab_me_n.png',
+        width: Dimens.homeImageSize, height: Dimens.homeImageSize),
+    Image.asset('images/icon_tab_me_p.png',
+        width: Dimens.homeImageSize, height: Dimens.homeImageSize),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+//    动态申请相机权限示例，原生部分请查看 Android 下的 MainActivity
+//    _getPermission();
+  }
+
+  Future<Null> _getPermission() async {
+    final String result =
+        await platform.invokeMethod('requestCameraPermissions');
+    print("result=$result");
+  }
 
   @override
   Widget build(BuildContext context) {

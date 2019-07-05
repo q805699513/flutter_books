@@ -43,14 +43,17 @@ class BookChaptersPageState extends State<BookChaptersPage> {
       ),
       body: new ListView.separated(
         controller: _controller,
-        padding:
-            EdgeInsets.fromLTRB(Dimens.leftMargin, 0, Dimens.rightMargin, 0),
+//        padding:
+//            EdgeInsets.fromLTRB(Dimens.leftMargin, 0, Dimens.rightMargin, 0),
         itemCount: _listBean.length,
         itemBuilder: (context, index) {
           return itemView(index);
         },
         separatorBuilder: (context, index) {
-          return Divider(height: 1, color: MyColors.dividerDarkColor);
+          return Padding(
+            padding: EdgeInsets.fromLTRB(Dimens.leftMargin, 0, 0, 0),
+            child: Divider(height: 1, color: MyColors.dividerDarkColor),
+          );
         },
       ),
     );
@@ -144,7 +147,7 @@ class BookChaptersPageState extends State<BookChaptersPage> {
           }));
         },
         child: Padding(
-          padding: EdgeInsets.fromLTRB(0, 16, 0, 16),
+          padding: EdgeInsets.fromLTRB(Dimens.leftMargin, 16, Dimens.rightMargin, 16),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisSize: MainAxisSize.max,
@@ -159,7 +162,14 @@ class BookChaptersPageState extends State<BookChaptersPage> {
                   style: TextStyle(
                       fontSize: Dimens.textSizeM, color: MyColors.textBlack9),
                 ),
-              )
+              ),
+              _listBean[index].isVip
+                  ? Image.asset(
+                      "images/icon_chapters_vip.png",
+                      width: 16,
+                      height: 16,
+                    )
+                  : Container(),
             ],
           ),
         ),

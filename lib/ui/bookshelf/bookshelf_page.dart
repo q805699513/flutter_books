@@ -15,41 +15,51 @@ class BookshelfPageState extends State<BookshelfPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Column(
-        children: <Widget>[
-          titleView(),
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.fromLTRB(
-                Dimens.leftMargin, 0, Dimens.rightMargin, 12),
-            padding: EdgeInsets.fromLTRB(14, 6, 14, 6),
-            decoration: BoxDecoration(
-                color: Color(0XFFEBF9F6),
-                borderRadius: BorderRadius.all(Radius.circular(100))),
-            child: Text(
-              "【Panda看书】全网小说不限时免费观看",
-              style: TextStyle(
-                  color: MyColors.textBlack6, fontSize: Dimens.textSizeL),
-            ),
-          ),
-          Expanded(
-            child: GridView.builder(
-              itemCount: 10,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10.0,
-                mainAxisSpacing: 10.0,
-                childAspectRatio: 1.0,
+        child: Column(
+          children: <Widget>[
+            titleView(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.fromLTRB(
+                          Dimens.leftMargin, 0, Dimens.rightMargin, 12),
+                      padding: EdgeInsets.fromLTRB(14, 6, 14, 6),
+                      decoration: BoxDecoration(
+                          color: Color(0XFFEBF9F6),
+                          borderRadius: BorderRadius.all(Radius.circular(100))),
+                      child: Text(
+                        "【Panda看书】全网小说不限时免费观看",
+                        style: TextStyle(
+                            color: MyColors.textBlack6,
+                            fontSize: Dimens.textSizeL),
+                      ),
+                    ),
+                    GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: 10,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10.0,
+                        mainAxisSpacing: 10.0,
+                        childAspectRatio: 1.0,
+                      ),
+                      itemBuilder: (context, index) {
+                        return Stack(
+                          children: <Widget>[Text("12122")],
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-              itemBuilder: (context, index) {
-                return Stack(children: <Widget>[
-                    Text("12122")
-                ],);
-              },
             ),
-          ),
-        ],
-      )),
+          ],
+        ),
+      ),
     );
   }
 

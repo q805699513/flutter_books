@@ -93,7 +93,7 @@ class BookContentPageState extends State<BookContentPage> {
               child: Container(
                 height: MediaQuery.of(context).padding.top,
                 color: Colors.black,
-              ))
+              ),),
         ],
       ),
     );

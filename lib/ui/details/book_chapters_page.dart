@@ -93,6 +93,7 @@ class BookChaptersPageState extends State<BookChaptersPage> {
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
                   "目录",
@@ -101,10 +102,13 @@ class BookChaptersPageState extends State<BookChaptersPage> {
                       color: MyColors.textPrimaryColor),
                   overflow: TextOverflow.ellipsis,
                 ),
+                SizedBox(
+                  width: 4,
+                ),
                 Image.asset(
                   "images/icon_chapters_turn.png",
-                  width: 16,
-                  height: 16,
+                  width: 15,
+                  height: 15,
                 ),
               ],
             ),
@@ -147,14 +151,18 @@ class BookChaptersPageState extends State<BookChaptersPage> {
           }));
         },
         child: Padding(
-          padding: EdgeInsets.fromLTRB(Dimens.leftMargin, 16, Dimens.rightMargin, 16),
+          padding: EdgeInsets.fromLTRB(
+              Dimens.leftMargin, 16, Dimens.rightMargin, 16),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Text(
-                "${index + 1}.  ",
-                style: TextStyle(fontSize: 9, color: MyColors.textBlack9),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
+                child: Text(
+                  "${index + 1}.  ",
+                  style: TextStyle(fontSize: 9, color: MyColors.textBlack9),
+                ),
               ),
               Expanded(
                 child: Text(

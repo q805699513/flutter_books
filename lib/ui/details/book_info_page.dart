@@ -21,7 +21,8 @@ class BookInfoPage extends StatefulWidget {
   State<StatefulWidget> createState() => BookInfoPageState();
 }
 
-class BookInfoPageState extends State<BookInfoPage> {
+class BookInfoPageState extends State<BookInfoPage>
+    implements OnLoadReloadListener {
   LoadStatus _loadStatus = LoadStatus.LOADING;
   BookInfoResp _bookInfoResp;
   ScrollController _controller = new ScrollController();
@@ -82,6 +83,9 @@ class BookInfoPageState extends State<BookInfoPage> {
           LoadingView(),
         ],
       );
+    }
+    if (_loadStatus == LoadStatus.FAILURE) {
+      return FailureView(this);
     }
 
     return Stack(
@@ -522,7 +526,16 @@ class BookInfoPageState extends State<BookInfoPage> {
         _bookInfoResp = BookInfoResp(json);
       });
     }).catchError((e) {
+      _loadStatus = LoadStatus.FAILURE;
       print("---走了2" + e.toString());
     });
+  }
+
+  @override
+  void onReload() {
+    setState(() {
+      _loadStatus = LoadStatus.LOADING;
+    });
+    getData();
   }
 }

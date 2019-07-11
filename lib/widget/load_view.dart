@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_books/res/colors.dart';
 
@@ -52,16 +50,21 @@ class _LoadingViewState extends State<LoadingView>
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        alignment: Alignment.center,
-        child: Image.asset(
-          _imageList[_animation.value],
-          width: 43,
-          height: 43,
-          gaplessPlayback: true,
-        ),
-      ),
+    return Container(
+        width: double.infinity,
+        color: MyColors.homeGrey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(
+              _imageList[_animation.value],
+              width: 43,
+              height: 43,
+              gaplessPlayback: true,
+            ),
+          ],
+        )
     );
   }
 
@@ -72,8 +75,10 @@ class _LoadingViewState extends State<LoadingView>
 }
 
 class FailureView extends StatefulWidget {
-  OnLoadReloadListener _listener;
+  final OnLoadReloadListener _listener;
+
   FailureView(this._listener);
+
   @override
   State<StatefulWidget> createState() => _FailureViewState();
 }
@@ -124,7 +129,7 @@ class _FailureViewState extends State<FailureView> {
   }
 }
 
-abstract class OnLoadReloadListener{
+abstract class OnLoadReloadListener {
   void onReload();
 }
 

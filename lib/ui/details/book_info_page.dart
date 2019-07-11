@@ -78,11 +78,7 @@ class BookInfoPageState extends State<BookInfoPage>
 
   Widget childLayout() {
     if (_loadStatus == LoadStatus.LOADING) {
-      return Row(
-        children: <Widget>[
-          LoadingView(),
-        ],
-      );
+      return LoadingView();
     }
     if (_loadStatus == LoadStatus.FAILURE) {
       return FailureView(this);
@@ -521,13 +517,11 @@ class BookInfoPageState extends State<BookInfoPage>
   void getData() async {
     await Repository().getBookInfo(this.widget._bookId).then((json) {
       setState(() {
-        print("---走了");
         _loadStatus = LoadStatus.SUCCESS;
         _bookInfoResp = BookInfoResp(json);
       });
     }).catchError((e) {
       _loadStatus = LoadStatus.FAILURE;
-      print("---走了2" + e.toString());
     });
   }
 

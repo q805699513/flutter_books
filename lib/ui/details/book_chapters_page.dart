@@ -24,7 +24,7 @@ class BookChaptersPage extends StatefulWidget {
 
 class BookChaptersPageState extends State<BookChaptersPage> {
   List<BookChaptersBean> _listBean = [];
-  ScrollController _controller = ScrollController();
+  bool _isReversed = false;
 
   @override
   void initState() {
@@ -42,9 +42,6 @@ class BookChaptersPageState extends State<BookChaptersPage> {
         title: titleView(),
       ),
       body: new ListView.separated(
-        controller: _controller,
-//        padding:
-//            EdgeInsets.fromLTRB(Dimens.leftMargin, 0, Dimens.rightMargin, 0),
         itemCount: _listBean.length,
         itemBuilder: (context, index) {
           return itemView(index);
@@ -87,9 +84,12 @@ class BookChaptersPageState extends State<BookChaptersPage> {
           ),
           GestureDetector(
             onTap: () {
-              setState(() {
-                _listBean = _listBean.reversed.toList();
-              });
+              if (_listBean != null && _listBean.length > 0) {
+                setState(() {
+                  _isReversed = !_isReversed;
+                  _listBean = _listBean.reversed.toList();
+                });
+              }
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -147,7 +147,8 @@ class BookChaptersPageState extends State<BookChaptersPage> {
       child: InkWell(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return BookContentPage(_listBean[index].link);
+            return BookContentPage(
+                _listBean[index].link, this.widget._bookId, index, _isReversed);
           }));
         },
         child: Padding(

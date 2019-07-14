@@ -38,10 +38,12 @@ class BookContentPageState extends State<BookContentPage>
   double _height = 0;
   double _bottomPadding = 200;
   double _imagePadding = 18;
-  int _duration = 249;
+  double _addBookshelfPadding = 50;
+  int _duration = 200;
   double _spaceValue = 1.2;
   double _textSizeValue = 18;
   bool _isNighttime = false;
+  bool _isAddBookshelf = false;
   List<BookChaptersBean> _listBean = [];
   String _title = "";
 
@@ -126,6 +128,9 @@ class BookContentPageState extends State<BookContentPage>
                 _bottomPadding == 0 ? _bottomPadding = 200 : _bottomPadding = 0;
                 _height == 48 ? _height = 0 : _height = 48;
                 _imagePadding == 0 ? _imagePadding = 18 : _imagePadding = 0;
+                _addBookshelfPadding == 0
+                    ? _addBookshelfPadding = 50
+                    : _addBookshelfPadding = 0;
               });
             },
             child: _loadStatus == LoadStatus.LOADING
@@ -282,12 +287,14 @@ class BookContentPageState extends State<BookContentPage>
       ),
     );
   }
+
   //隐藏设置view
-  void closeSettingView(){
+  void closeSettingView() {
     setState(() {
       _bottomPadding = 200;
       _height = 0;
-      _imagePadding = 18 ;
+      _imagePadding = 18;
+      _addBookshelfPadding = 50;
     });
   }
 
@@ -346,6 +353,49 @@ class BookContentPageState extends State<BookContentPage>
                   ),
                 ),
               ],
+            ),
+          ),
+        ),
+        Container(
+          width: 50,
+          child: AnimatedPadding(
+            padding: EdgeInsets.fromLTRB(_addBookshelfPadding, 10, 0, 10),
+            duration: Duration(milliseconds: _duration),
+            child: Container(
+              width: 50,
+              color: MyColors.contentBgColor,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.horizontal(
+                  left: Radius.circular(50),
+                ),
+              ),
+              child: GestureDetector(
+                onTap: (){
+                  print("加入书架");
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(
+                      _isNighttime
+                          ? "images/icon_content_daytime.png"
+                          : "images/icon_content_nighttime.png",
+                      height: 16,
+                      width: 16,
+                    ),
+                    SizedBox(
+                      width: 3,
+                    ),
+                    Text(
+                      "加入书架",
+                      style: TextStyle(
+                        color: MyColors.contentColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),

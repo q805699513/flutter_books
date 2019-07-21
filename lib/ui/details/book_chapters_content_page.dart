@@ -8,6 +8,7 @@ import 'package:flutter_books/data/model/response/book_chapters_resp.dart';
 import 'package:flutter_books/data/model/response/book_content_resp.dart';
 import 'package:flutter_books/data/model/response/book_genuine_source_resp.dart';
 import 'package:flutter_books/data/repository/repository.dart';
+import 'package:flutter_books/db/db_helper.dart';
 import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
 import 'package:flutter_books/widget/load_view.dart';
@@ -19,10 +20,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 class BookContentPage extends StatefulWidget {
   String _bookUrl;
   String _bookId;
+  String _bookImage;
+
   int _index = 0;
   bool _isReversed;
 
-  BookContentPage(this._bookUrl, this._bookId, this._index, this._isReversed);
+  BookContentPage(this._bookUrl, this._bookId,this._bookImage, this._index, this._isReversed);
 
   @override
   State<StatefulWidget> createState() {
@@ -32,13 +35,18 @@ class BookContentPage extends StatefulWidget {
 
 class BookContentPageState extends State<BookContentPage>
     with OnLoadReloadListener {
+  var _dbHelper = DbHelper();
+  static final double _addBookshelfWidth = 95;
+  static final double _bottomHeight = 200;
+
   LoadStatus _loadStatus = LoadStatus.LOADING;
+  ScrollController _controller = new ScrollController();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String _content = "";
   double _height = 0;
-  double _bottomPadding = 200;
+  double _bottomPadding = _bottomHeight;
   double _imagePadding = 18;
-  double _addBookshelfPadding = 50;
+  double _addBookshelfPadding = _addBookshelfWidth;
   int _duration = 200;
   double _spaceValue = 1.2;
   double _textSizeValue = 18;
@@ -46,10 +54,15 @@ class BookContentPageState extends State<BookContentPage>
   bool _isAddBookshelf = false;
   List<BookChaptersBean> _listBean = [];
   String _title = "";
+  double _offset = 0;
 
   @override
   void initState() {
     super.initState();
+    _controller.addListener(() {
+      print(_controller.offset);
+      _offset = _controller.offset;
+    });
     getData();
     getChaptersData();
     setStemStyle();
@@ -125,11 +138,15 @@ class BookContentPageState extends State<BookContentPage>
             onTap: () {
               setState(() {
 //                  _isSettingGone = !_isSettingGone;
-                _bottomPadding == 0 ? _bottomPadding = 200 : _bottomPadding = 0;
-                _height == 48 ? _height = 0 : _height = 48;
+                _bottomPadding == 0
+                    ? _bottomPadding = _bottomHeight
+                    : _bottomPadding = 0;
+                _height == Dimens.titleHeight
+                    ? _height = 0
+                    : _height = Dimens.titleHeight;
                 _imagePadding == 0 ? _imagePadding = 18 : _imagePadding = 0;
                 _addBookshelfPadding == 0
-                    ? _addBookshelfPadding = 50
+                    ? _addBookshelfPadding = _addBookshelfWidth
                     : _addBookshelfPadding = 0;
               });
             },
@@ -138,6 +155,7 @@ class BookContentPageState extends State<BookContentPage>
                 : _loadStatus == LoadStatus.FAILURE
                     ? FailureView(this)
                     : SingleChildScrollView(
+                        controller: _controller,
                         reverse: false,
                         padding: EdgeInsets.fromLTRB(
                           Dimens.leftMargin,
@@ -274,6 +292,54 @@ class BookContentPageState extends State<BookContentPage>
                       ),
           ),
           settingView(),
+          //加入书架
+          Positioned(
+            top: 78,
+            right: 0,
+            child: Container(
+              width: _addBookshelfWidth,
+              child: AnimatedPadding(
+                padding: EdgeInsets.fromLTRB(_addBookshelfPadding, 30, 0, 0),
+                duration: Duration(milliseconds: _duration),
+                child: GestureDetector(
+                  onTap: () {
+                    addBookshelf();
+                  },
+                  child: Container(
+                    width: _addBookshelfWidth,
+                    padding: EdgeInsets.fromLTRB(10, 4, 0, 4),
+                    decoration: BoxDecoration(
+                      color: MyColors.contentBgColor,
+                      borderRadius: BorderRadius.horizontal(
+                        left: Radius.circular(50),
+                      ),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          "images/icon_add_bookshelf.png",
+                          height: 16,
+                          width: 16,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "加入书架",
+                          style: TextStyle(
+                            color: MyColors.contentColor,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          //状态栏颜色
           Positioned(
             top: 0,
             left: 0,
@@ -291,10 +357,10 @@ class BookContentPageState extends State<BookContentPage>
   //隐藏设置view
   void closeSettingView() {
     setState(() {
-      _bottomPadding = 200;
+      _bottomPadding = _bottomHeight;
       _height = 0;
       _imagePadding = 18;
-      _addBookshelfPadding = 50;
+      _addBookshelfPadding = _addBookshelfWidth;
     });
   }
 
@@ -310,7 +376,7 @@ class BookContentPageState extends State<BookContentPage>
           height: _height,
           duration: Duration(milliseconds: _duration),
           child: Container(
-            height: 48,
+            height: Dimens.titleHeight,
             color: MyColors.contentBgColor,
             child: Row(
               mainAxisSize: MainAxisSize.max,
@@ -356,49 +422,6 @@ class BookContentPageState extends State<BookContentPage>
             ),
           ),
         ),
-        Container(
-          width: 50,
-          child: AnimatedPadding(
-            padding: EdgeInsets.fromLTRB(_addBookshelfPadding, 10, 0, 10),
-            duration: Duration(milliseconds: _duration),
-            child: Container(
-              width: 50,
-              color: MyColors.contentBgColor,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.horizontal(
-                  left: Radius.circular(50),
-                ),
-              ),
-              child: GestureDetector(
-                onTap: (){
-                  print("加入书架");
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Image.asset(
-                      _isNighttime
-                          ? "images/icon_content_daytime.png"
-                          : "images/icon_content_nighttime.png",
-                      height: 16,
-                      width: 16,
-                    ),
-                    SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      "加入书架",
-                      style: TextStyle(
-                        color: MyColors.contentColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
         Expanded(child: SizedBox()),
         Container(
           margin: EdgeInsets.fromLTRB(Dimens.leftMargin, 0, 0, 0),
@@ -428,12 +451,12 @@ class BookContentPageState extends State<BookContentPage>
           height: 20,
         ),
         Container(
-          height: 200,
+          height: _bottomHeight,
           child: AnimatedPadding(
             duration: Duration(milliseconds: _duration),
             padding: EdgeInsets.fromLTRB(0, _bottomPadding, 0, 0),
             child: Container(
-              height: 200,
+              height: _bottomHeight,
               padding: EdgeInsets.fromLTRB(
                   Dimens.leftMargin, 20, Dimens.rightMargin, Dimens.leftMargin),
               color: MyColors.contentBgColor,
@@ -661,6 +684,20 @@ class BookContentPageState extends State<BookContentPage>
     );
   }
 
+  void addBookshelf(){
+    var bookshelfBean  = BookshelfBean(
+      _title,
+      this.widget._bookImage,
+      (this.widget._index*100~/_listBean.length).toInt().toString(),
+      this.widget._bookUrl,
+      this.widget._bookId,
+      _offset,
+      this.widget._isReversed?1:0,
+      this.widget._index,
+    );
+    _dbHelper.addBookshelfItem(bookshelfBean);
+  }
+
   void getData() async {
     await Repository()
         .getBookChaptersContent(this.widget._bookUrl)
@@ -724,5 +761,11 @@ class BookContentPageState extends State<BookContentPage>
   void onReload() {
     _loadStatus = LoadStatus.LOADING;
     getData();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _dbHelper.close();
   }
 }

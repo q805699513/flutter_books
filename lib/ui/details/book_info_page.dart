@@ -30,6 +30,7 @@ class BookInfoPageState extends State<BookInfoPage>
   Color _titleBgColor = Color.fromARGB(0, 255, 255, 255);
   Color _titleTextColor = Color.fromARGB(0, 0, 0, 0);
   bool _isDividerGone = true;
+  String _image;
 
   @override
   void initState() {
@@ -363,7 +364,8 @@ class BookInfoPageState extends State<BookInfoPage>
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (content) => BookChaptersPage(this.widget._bookId)),
+                  builder: (content) =>
+                      BookChaptersPage(this.widget._bookId, _image)),
             );
           }
         },
@@ -380,9 +382,11 @@ class BookInfoPageState extends State<BookInfoPage>
                 height: 34,
                 fit: BoxFit.contain,
               ),
-              Text(content,
-                  style: TextStyle(
-                      color: MyColors.textBlack3, fontSize: Dimens.textSizeM)),
+              Text(
+                content,
+                style: TextStyle(
+                    color: MyColors.textBlack3, fontSize: Dimens.textSizeM),
+              ),
             ],
           ),
         ),
@@ -519,6 +523,7 @@ class BookInfoPageState extends State<BookInfoPage>
       setState(() {
         _loadStatus = LoadStatus.SUCCESS;
         _bookInfoResp = BookInfoResp(json);
+        _image = _bookInfoResp.cover;
       });
     }).catchError((e) {
       _loadStatus = LoadStatus.FAILURE;

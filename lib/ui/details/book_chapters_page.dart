@@ -14,8 +14,9 @@ import 'package:flutter_books/ui/details/book_chapters_content_page.dart';
 class BookChaptersPage extends StatefulWidget {
   final String _bookId;
   final String _image;
+  final String _bookName;
 
-  BookChaptersPage(this._bookId, this._image);
+  BookChaptersPage(this._bookId, this._image, this._bookName);
 
   @override
   State<StatefulWidget> createState() {
@@ -148,8 +149,8 @@ class BookChaptersPageState extends State<BookChaptersPage> {
       child: InkWell(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return BookContentPage(
-                _listBean[index].link, this.widget._bookId,this.widget._image, index, _isReversed);
+            return BookContentPage(_listBean[index].link, this.widget._bookId,
+                this.widget._image, index, _isReversed, this.widget._bookName);
           }));
         },
         child: Padding(

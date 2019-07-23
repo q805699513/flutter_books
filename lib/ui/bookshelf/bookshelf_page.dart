@@ -74,10 +74,12 @@ class BookshelfPageState extends State<BookshelfPage> {
   }
 
   Widget itemView(int index) {
+
     String readProgress = _listBean[index].readProgress;
     if (readProgress == "0") {
       readProgress = "1";
     }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -165,16 +167,15 @@ class BookshelfPageState extends State<BookshelfPage> {
   void getDbData() async {
     await _dbHelper.getTotalList().then((list) {
       list.forEach((item) {
-        print("bookId= ${item.toString()}");
+        print("DbData = ${item.toString()}");
+
         BookshelfBean todoItem = BookshelfBean.fromMap(item);
         setState(() {
           _listBean.add(todoItem);
         });
-        print("bookId= ${todoItem.bookId}");
       });
-      print("length= ${_listBean.length}");
     }).catchError((e) {
-      print("length= ${e.toString()}");
+      print("DbData = ${e.toString()}");
     });
   }
 }

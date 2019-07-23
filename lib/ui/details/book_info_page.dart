@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_books/data/model/response/book_info_resp.dart';
 import 'package:flutter_books/data/repository/repository.dart';
+import 'package:flutter_books/db/db_helper.dart';
 import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
 import 'package:flutter_books/ui/details/book_chapters_page.dart';
@@ -31,6 +32,10 @@ class BookInfoPageState extends State<BookInfoPage>
   Color _titleTextColor = Color.fromARGB(0, 0, 0, 0);
   bool _isDividerGone = true;
   String _image;
+  String _bookName;
+  var _dbHelper = DbHelper();
+  //判断是否加入书架
+  bool _isAddBookshelf = false;
 
   @override
   void initState() {
@@ -101,7 +106,7 @@ class BookInfoPageState extends State<BookInfoPage>
                 borderRadius: BorderRadius.all(Radius.circular(0))),
             onPressed: () {},
             child: Text(
-              "开始阅读",
+              _isAddBookshelf?"继续阅读":"开始阅读",
               style: TextStyle(color: MyColors.white, fontSize: 16),
             ),
           ),
@@ -365,7 +370,7 @@ class BookInfoPageState extends State<BookInfoPage>
               context,
               MaterialPageRoute(
                   builder: (content) =>
-                      BookChaptersPage(this.widget._bookId, _image)),
+                      BookChaptersPage(this.widget._bookId, _image, _bookName)),
             );
           }
         },
@@ -524,10 +529,17 @@ class BookInfoPageState extends State<BookInfoPage>
         _loadStatus = LoadStatus.SUCCESS;
         _bookInfoResp = BookInfoResp(json);
         _image = _bookInfoResp.cover;
+        _bookName = _bookInfoResp.title;
       });
     }).catchError((e) {
       _loadStatus = LoadStatus.FAILURE;
     });
+    var list = await _dbHelper.queryBooks(_bookInfoResp.id);
+    if (list != null && list.length > 0) {
+      setState(() {
+        _isAddBookshelf = true;
+      });
+    }
   }
 
   @override

@@ -21,11 +21,12 @@ class BookContentPage extends StatefulWidget {
   String _bookUrl;
   String _bookId;
   String _bookImage;
-
+  String _bookName;
   int _index = 0;
   bool _isReversed;
 
-  BookContentPage(this._bookUrl, this._bookId,this._bookImage, this._index, this._isReversed);
+  BookContentPage(this._bookUrl, this._bookId, this._bookImage, this._index,
+      this._isReversed, this._bookName);
 
   @override
   State<StatefulWidget> createState() {
@@ -191,6 +192,8 @@ class BookContentPageState extends State<BookContentPage>
                             SizedBox(
                               height: 16,
                             ),
+
+                            /// 章节切换
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: <Widget>[
@@ -292,7 +295,8 @@ class BookContentPageState extends State<BookContentPage>
                       ),
           ),
           settingView(),
-          //加入书架
+
+          /// 加入书架
           Positioned(
             top: 78,
             right: 0,
@@ -307,7 +311,7 @@ class BookContentPageState extends State<BookContentPage>
                   },
                   child: Container(
                     width: _addBookshelfWidth,
-                    padding: EdgeInsets.fromLTRB(10, 4, 0, 4),
+                    padding: EdgeInsets.fromLTRB(10, 7, 0, 7),
                     decoration: BoxDecoration(
                       color: MyColors.contentBgColor,
                       borderRadius: BorderRadius.horizontal(
@@ -319,8 +323,8 @@ class BookContentPageState extends State<BookContentPage>
                       children: <Widget>[
                         Image.asset(
                           "images/icon_add_bookshelf.png",
-                          height: 16,
-                          width: 16,
+                          height: 20,
+                          width: 20,
                         ),
                         SizedBox(
                           width: 5,
@@ -329,7 +333,7 @@ class BookContentPageState extends State<BookContentPage>
                           "加入书架",
                           style: TextStyle(
                             color: MyColors.contentColor,
-                            fontSize: 13,
+                            fontSize: 14,
                           ),
                         ),
                       ],
@@ -684,15 +688,15 @@ class BookContentPageState extends State<BookContentPage>
     );
   }
 
-  void addBookshelf(){
-    var bookshelfBean  = BookshelfBean(
-      _title,
+  void addBookshelf() {
+    var bookshelfBean = BookshelfBean(
+      this.widget._bookName,
       this.widget._bookImage,
-      (this.widget._index*100~/_listBean.length).toInt().toString(),
+      (this.widget._index * 100 ~/ _listBean.length).toInt().toString(),
       this.widget._bookUrl,
       this.widget._bookId,
       _offset,
-      this.widget._isReversed?1:0,
+      this.widget._isReversed ? 1 : 0,
       this.widget._index,
     );
     _dbHelper.addBookshelfItem(bookshelfBean);

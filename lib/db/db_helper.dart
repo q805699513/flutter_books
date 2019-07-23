@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:path/path.dart';
@@ -8,7 +7,8 @@ import 'package:sqflite/sqflite.dart';
 ///@author longshaohua
 
 class DbHelper {
-  final String tableName = "Bookshelf";
+  final String _tableName = "Bookshelf";
+
   Database _db = null;
 
   Future<Database> get db async {
@@ -27,7 +27,7 @@ class DbHelper {
 
   // When creating the db, create the table
   void _onCreate(Database db, int version) async {
-    await db.execute("CREATE TABLE $tableName("
+    await db.execute("CREATE TABLE $_tableName("
         "id INTEGER PRIMARY KEY,"
         "title TEXT,"
         "image TEXT,"
@@ -44,15 +44,23 @@ class DbHelper {
   Future<int> addBookshelfItem(BookshelfBean item) async {
     print("addBookshelfItem = ${item.bookId}");
     var dbClient = await db;
-    int res = await dbClient.insert("$tableName", item.toMap());
+    int res = await dbClient.insert("$_tableName", item.toMap());
     return res;
+  }
+
+  /// 根据 id 查询判断书籍是否存在书架
+  Future<List> queryBooks(String bookId) async {
+    var dbClient = await db;
+    var result = await dbClient
+        .query(_tableName, where: "bookId = ?", whereArgs: [bookId]);
+    return result;
   }
 
   /// 书架根据 id 移除书籍
   Future<int> deleteItem(String id) async {
     var dbClient = await db;
     int res =
-        await dbClient.delete(tableName, where: "bookId = ?", whereArgs: [id]);
+        await dbClient.delete(_tableName, where: "bookId = ?", whereArgs: [id]);
     print("deleteItem = $res");
     return res;
   }
@@ -60,7 +68,7 @@ class DbHelper {
   /// 查询加入书架的所有书籍
   Future<List> getTotalList() async {
     var dbClient = await db;
-    var result = await dbClient.rawQuery("SELECT * FROM $tableName");
+    var result = await dbClient.rawQuery("SELECT * FROM $_tableName");
     return result.toList();
   }
 
@@ -85,14 +93,13 @@ class BookshelfBean {
   int chaptersIndex;
 
   BookshelfBean.fromMap(Map<String, dynamic> map) {
-
     title = map["title"] as String;
     image = map["image"] as String;
     readProgress = map["readProgress"] as String;
     bookUrl = map["bookUrl"] as String;
     bookId = map["bookId"] as String;
-    offset = map["offset"]as double;
-    isReversed = map["isReversed"]as int;
+    offset = map["offset"] as double;
+    isReversed = map["isReversed"] as int;
     chaptersIndex = map["chaptersIndex"] as int;
   }
 

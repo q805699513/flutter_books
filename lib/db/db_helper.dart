@@ -49,11 +49,15 @@ class DbHelper {
   }
 
   /// 根据 id 查询判断书籍是否存在书架
-  Future<List> queryBooks(String bookId) async {
+  Future<BookshelfBean> queryBooks(String bookId) async {
     var dbClient = await db;
     var result = await dbClient
         .query(_tableName, where: "bookId = ?", whereArgs: [bookId]);
-    return result;
+
+    if (result != null && result.length > 0) {
+     return BookshelfBean.fromMap(result[0]);
+    }
+    return null;
   }
 
   /// 书架根据 id 移除书籍
@@ -82,13 +86,15 @@ class DbHelper {
 class BookshelfBean {
   BookshelfBean(this.title, this.image, this.readProgress, this.bookUrl,
       this.bookId, this.offset, this.isReversed, this.chaptersIndex);
-
+  /// 书名
   String title;
   String image;
   String readProgress;
   String bookUrl;
   String bookId;
   double offset;
+
+  /// 1是倒序
   int isReversed;
   int chaptersIndex;
 

@@ -149,8 +149,14 @@ class BookChaptersPageState extends State<BookChaptersPage> {
       child: InkWell(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return BookContentPage(_listBean[index].link, this.widget._bookId,
-                this.widget._image, index, _isReversed, this.widget._bookName);
+            return BookContentPage(
+                _listBean[index].link,
+                this.widget._bookId,
+                this.widget._image,
+                index,
+                _isReversed,
+                this.widget._bookName,
+                0);
           }));
         },
         child: Padding(

@@ -18,15 +18,29 @@ import 'package:fluttertoast/fluttertoast.dart';
 ///小说内容浏览页
 
 class BookContentPage extends StatefulWidget {
+  /// 书籍章节内容 url
   String _bookUrl;
+
+  /// 书籍 id
   String _bookId;
+
+  /// 书籍图片
   String _bookImage;
+
+  /// 保存到数据库里的书名
   String _bookName;
+
+  /// 目录选择的 item 索引
   int _index = 0;
+
+  /// 初次进页面 scrollview 滑动到上一次阅读的地方
+  double _initOffset = 0;
+
+  /// 章节是否倒序
   bool _isReversed;
 
   BookContentPage(this._bookUrl, this._bookId, this._bookImage, this._index,
-      this._isReversed, this._bookName);
+      this._isReversed, this._bookName, this._initOffset);
 
   @override
   State<StatefulWidget> createState() {
@@ -39,6 +53,7 @@ class BookContentPageState extends State<BookContentPage>
   var _dbHelper = DbHelper();
   static final double _addBookshelfWidth = 95;
   static final double _bottomHeight = 200;
+  static final double _sImagePadding = 20;
 
   LoadStatus _loadStatus = LoadStatus.LOADING;
   ScrollController _controller = new ScrollController();
@@ -46,7 +61,7 @@ class BookContentPageState extends State<BookContentPage>
   String _content = "";
   double _height = 0;
   double _bottomPadding = _bottomHeight;
-  double _imagePadding = 18;
+  double _imagePadding = _sImagePadding;
   double _addBookshelfPadding = _addBookshelfWidth;
   int _duration = 200;
   double _spaceValue = 1.2;
@@ -64,9 +79,14 @@ class BookContentPageState extends State<BookContentPage>
       print(_controller.offset);
       _offset = _controller.offset;
     });
+    getChaptersListData();
     getData();
-    getChaptersData();
     setStemStyle();
+    isAddBookshelf().then((isAdd) {
+      setState(() {
+        _isAddBookshelf = true;
+      });
+    });
   }
 
   @override
@@ -145,7 +165,9 @@ class BookContentPageState extends State<BookContentPage>
                 _height == Dimens.titleHeight
                     ? _height = 0
                     : _height = Dimens.titleHeight;
-                _imagePadding == 0 ? _imagePadding = 18 : _imagePadding = 0;
+                _imagePadding == 0
+                    ? _imagePadding = _sImagePadding
+                    : _imagePadding = 0;
                 _addBookshelfPadding == 0
                     ? _addBookshelfPadding = _addBookshelfWidth
                     : _addBookshelfPadding = 0;
@@ -297,52 +319,55 @@ class BookContentPageState extends State<BookContentPage>
           settingView(),
 
           /// 加入书架
-          Positioned(
-            top: 78,
-            right: 0,
-            child: Container(
-              width: _addBookshelfWidth,
-              child: AnimatedPadding(
-                padding: EdgeInsets.fromLTRB(_addBookshelfPadding, 30, 0, 0),
-                duration: Duration(milliseconds: _duration),
-                child: GestureDetector(
-                  onTap: () {
-                    addBookshelf();
-                  },
+          _isAddBookshelf
+              ? Container()
+              : Positioned(
+                  top: 78,
+                  right: 0,
                   child: Container(
                     width: _addBookshelfWidth,
-                    padding: EdgeInsets.fromLTRB(10, 7, 0, 7),
-                    decoration: BoxDecoration(
-                      color: MyColors.contentBgColor,
-                      borderRadius: BorderRadius.horizontal(
-                        left: Radius.circular(50),
-                      ),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Image.asset(
-                          "images/icon_add_bookshelf.png",
-                          height: 20,
-                          width: 20,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "加入书架",
-                          style: TextStyle(
-                            color: MyColors.contentColor,
-                            fontSize: 14,
+                    child: AnimatedPadding(
+                      padding:
+                          EdgeInsets.fromLTRB(_addBookshelfPadding, 30, 0, 0),
+                      duration: Duration(milliseconds: _duration),
+                      child: GestureDetector(
+                        onTap: () {
+                          addBookshelf();
+                        },
+                        child: Container(
+                          width: _addBookshelfWidth,
+                          padding: EdgeInsets.fromLTRB(10, 7, 0, 7),
+                          decoration: BoxDecoration(
+                            color: MyColors.contentBgColor,
+                            borderRadius: BorderRadius.horizontal(
+                              left: Radius.circular(50),
+                            ),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Image.asset(
+                                "images/icon_add_bookshelf.png",
+                                height: 20,
+                                width: 20,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "加入书架",
+                                style: TextStyle(
+                                  color: MyColors.contentColor,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ),
           //状态栏颜色
           Positioned(
             top: 0,
@@ -363,7 +388,7 @@ class BookContentPageState extends State<BookContentPage>
     setState(() {
       _bottomPadding = _bottomHeight;
       _height = 0;
-      _imagePadding = 18;
+      _imagePadding = _sImagePadding;
       _addBookshelfPadding = _addBookshelfWidth;
     });
   }
@@ -429,8 +454,8 @@ class BookContentPageState extends State<BookContentPage>
         Expanded(child: SizedBox()),
         Container(
           margin: EdgeInsets.fromLTRB(Dimens.leftMargin, 0, 0, 0),
-          width: 36,
-          height: 36,
+          width: _sImagePadding * 2,
+          height: _sImagePadding * 2,
           child: AnimatedPadding(
             duration: Duration(milliseconds: _duration),
             padding: EdgeInsets.fromLTRB(
@@ -688,11 +713,16 @@ class BookContentPageState extends State<BookContentPage>
     );
   }
 
+  /// 添加到书架
   void addBookshelf() {
+    double index = (this.widget._index * 100 / _listBean.length);
+    if (index < 0.1) {
+      index = 0.1;
+    }
     var bookshelfBean = BookshelfBean(
       this.widget._bookName,
       this.widget._bookImage,
-      (this.widget._index * 100 ~/ _listBean.length).toInt().toString(),
+      index.toStringAsFixed(1),
       this.widget._bookUrl,
       this.widget._bookId,
       _offset,
@@ -702,6 +732,7 @@ class BookContentPageState extends State<BookContentPage>
     _dbHelper.addBookshelfItem(bookshelfBean);
   }
 
+  /// 获取书籍内容
   void getData() async {
     await Repository()
         .getBookChaptersContent(this.widget._bookUrl)
@@ -728,8 +759,8 @@ class BookContentPageState extends State<BookContentPage>
     });
   }
 
-  //获取章节内容
-  void getChaptersData() async {
+  //获取章节列表
+  void getChaptersListData() async {
     GenuineSourceReq genuineSourceReq =
         GenuineSourceReq("summary", this.widget._bookId);
     var entryPoint =
@@ -744,6 +775,9 @@ class BookContentPageState extends State<BookContentPage>
         BookChaptersResp bookChaptersResp = BookChaptersResp(json);
         setState(() {
           _listBean = bookChaptersResp.chapters;
+          if (this.widget._bookUrl == null && _listBean.length > 0) {
+            this.widget._bookUrl = _listBean[0].link;
+          }
           if (this.widget._isReversed) {
             _listBean = _listBean.reversed.toList();
           }
@@ -757,8 +791,21 @@ class BookContentPageState extends State<BookContentPage>
 
   //设置状态文字颜色
   void setStemStyle() async {
-    await Future.delayed(const Duration(milliseconds: 500),
-        () => SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light));
+    await Future.delayed(const Duration(milliseconds: 500), () {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+      _controller.jumpTo(this.widget._initOffset);
+    });
+  }
+
+  /// 判断是否加入书架
+
+  Future<bool> isAddBookshelf() async {
+    var bookList = await _dbHelper.queryBooks(this.widget._bookId);
+    if (bookList != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override

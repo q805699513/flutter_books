@@ -76,8 +76,8 @@ class BookshelfPageState extends State<BookshelfPage> {
   Widget itemView(int index) {
 
     String readProgress = _listBean[index].readProgress;
-    if (readProgress == "0") {
-      readProgress = "1";
+    if (readProgress <0.1) {
+      readProgress = "0.1";
     }
 
     return Column(

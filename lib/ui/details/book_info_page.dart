@@ -4,6 +4,7 @@ import 'package:flutter_books/data/repository/repository.dart';
 import 'package:flutter_books/db/db_helper.dart';
 import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
+import 'package:flutter_books/ui/details/book_chapters_content_page.dart';
 import 'package:flutter_books/ui/details/book_chapters_page.dart';
 import 'package:flutter_books/util/utils.dart';
 import 'package:flutter_books/widget/load_view.dart';
@@ -34,8 +35,10 @@ class BookInfoPageState extends State<BookInfoPage>
   String _image;
   String _bookName;
   var _dbHelper = DbHelper();
+
   //判断是否加入书架
   bool _isAddBookshelf = false;
+  BookshelfBean bookshelfBean;
 
   @override
   void initState() {
@@ -104,9 +107,27 @@ class BookInfoPageState extends State<BookInfoPage>
             color: MyColors.textPrimaryColor,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(0))),
-            onPressed: () {},
+            onPressed: () {
+              if (_isAddBookshelf) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return BookContentPage(
+                      bookshelfBean.bookUrl,
+                      this.widget._bookId,
+                      _image,
+                      bookshelfBean.chaptersIndex,
+                      bookshelfBean.isReversed == 1,
+                      _bookName,
+                      bookshelfBean.offset);
+                }));
+              } else {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return BookContentPage(null, this.widget._bookId, _image, 0,
+                      false, _bookName, 0);
+                }));
+              }
+            },
             child: Text(
-              _isAddBookshelf?"继续阅读":"开始阅读",
+              _isAddBookshelf ? "继续阅读" : "开始阅读",
               style: TextStyle(color: MyColors.white, fontSize: 16),
             ),
           ),
@@ -535,7 +556,8 @@ class BookInfoPageState extends State<BookInfoPage>
       _loadStatus = LoadStatus.FAILURE;
     });
     var list = await _dbHelper.queryBooks(_bookInfoResp.id);
-    if (list != null && list.length > 0) {
+    if (list != null ) {
+      bookshelfBean = list;
       setState(() {
         _isAddBookshelf = true;
       });

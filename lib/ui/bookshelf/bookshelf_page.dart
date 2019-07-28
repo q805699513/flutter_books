@@ -39,7 +39,7 @@ class BookshelfPageState extends State<BookshelfPage> {
                       width: double.infinity,
                       margin: EdgeInsets.fromLTRB(
                           Dimens.leftMargin, 0, Dimens.rightMargin, 20),
-                      padding: EdgeInsets.fromLTRB(14, 6, 14, 6),
+                      padding: EdgeInsets.fromLTRB(18, 10, 18, 10),
                       decoration: BoxDecoration(
                           color: Color(0XFFEBF9F6),
                           borderRadius: BorderRadius.all(Radius.circular(100))),

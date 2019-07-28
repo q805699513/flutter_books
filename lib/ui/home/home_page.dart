@@ -38,7 +38,7 @@ class _TabHomePageState extends State<TabHomePage> {
                             borderRadius: BorderRadius.all(Radius.circular(5)),
                             color: MyColors.homeGrey,
                           ),
-                          padding: EdgeInsets.fromLTRB(10, 8, 10, 8),
+                          padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
@@ -51,7 +51,7 @@ class _TabHomePageState extends State<TabHomePage> {
                                 "   搜索本地及网络书籍",
                                 style: TextStyle(
                                   color: MyColors.homeGreyText,
-                                  fontSize: 14,
+                                  fontSize: 15,
                                 ),
                               ),
                             ],
@@ -70,13 +70,14 @@ class _TabHomePageState extends State<TabHomePage> {
                           children: <Widget>[
                             Image.asset(
                               "images/icon_classification.png",
-                              width: 20,
-                              height: 20,
+                              width: 22,
+                              height: 22,
                             ),
                             Text(
                               "分类",
                               style: TextStyle(
-                                fontSize: 10,
+                                color: MyColors.textBlack6,
+                                fontSize: 11,
                               ),
                             ),
                           ],
@@ -88,8 +89,8 @@ class _TabHomePageState extends State<TabHomePage> {
                 TabBar(
                   labelColor: MyColors.homeTabText,
                   unselectedLabelColor: MyColors.homeTabGreyText,
-                  labelStyle: TextStyle(fontSize: 14),
-                  labelPadding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                  labelStyle: TextStyle(fontSize: 16),
+                  labelPadding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                   indicatorColor: MyColors.homeTabText,
                   indicatorSize: TabBarIndicatorSize.label,
                   indicatorWeight: 2,

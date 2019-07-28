@@ -60,9 +60,17 @@ class _MyHomePageState extends State {
       bottomNavigationBar: CupertinoTabBar(
         items: [
           BottomNavigationBarItem(
-              icon: _getBookshelfImage(0), title: Text("书架")),
-          BottomNavigationBarItem(icon: _getHomeImage(1), title: Text("书城")),
-          BottomNavigationBarItem(icon: _getMeImage(2), title: Text("我的")),
+            icon: _getBookshelfImage(0),
+            title: Text("书架"),
+          ),
+          BottomNavigationBarItem(
+            icon: _getHomeImage(1),
+            title: Text("书城"),
+          ),
+          BottomNavigationBarItem(
+            icon: _getMeImage(2),
+            title: Text("我的"),
+          ),
         ],
         currentIndex: _tabIndex,
         backgroundColor: MyColors.white,

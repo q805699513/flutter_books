@@ -5,6 +5,7 @@ import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
 import 'package:flutter_books/ui/bookshelf/bookshelf_page.dart';
 import 'package:flutter_books/ui/home/home_page.dart';
+import 'package:flutter_books/ui/me/me_page.dart';
 
 ///@author longshaohua
 ///小说首页
@@ -36,7 +37,7 @@ class _MyHomePageState extends State {
   void initState() {
     super.initState();
 //    动态申请相机权限示例，原生部分请查看 Android 下的 MainActivity
-//    _getPermission();
+    _getPermission();
   }
 
   Future<Null> _getPermission() async {
@@ -52,7 +53,7 @@ class _MyHomePageState extends State {
         children: <Widget>[
           BookshelfPage(),
           TabHomePage(),
-          Text('我的'),
+          MePage(),
         ],
         index: _tabIndex,
       ),

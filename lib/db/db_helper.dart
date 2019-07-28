@@ -61,7 +61,7 @@ class DbHelper {
   }
 
   /// 书架根据 id 移除书籍
-  Future<int> deleteItem(String id) async {
+  Future<int> deleteBooks(String id) async {
     var dbClient = await db;
     int res =
         await dbClient.delete(_tableName, where: "bookId = ?", whereArgs: [id]);
@@ -75,6 +75,14 @@ class DbHelper {
     var result = await dbClient.rawQuery("SELECT * FROM $_tableName");
     return result.toList();
   }
+
+  /// 更新书籍进度
+  Future<int> updateBooks(BookshelfBean user) async {
+    var dbClient = await db;
+    return await dbClient.update(_tableName, user.toMap(),
+        where: "bookId = ?", whereArgs: [user.bookId]);
+  }
+
 
   /// 关闭
   Future close() async {

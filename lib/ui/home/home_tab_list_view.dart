@@ -50,7 +50,7 @@ class _HomeTabListViewState extends State<HomeTabListView>
       onTap: () {
         Navigator.push(
           context,
-          new MaterialPageRoute(builder: (context) => BookInfoPage(_list[position].id)),
+          new MaterialPageRoute(builder: (context) => BookInfoPage(_list[position].id,false)),
         );
       },
       child: Container(
@@ -147,7 +147,7 @@ class _HomeTabListViewState extends State<HomeTabListView>
     categoriesReq.major = this.widget.major;
     categoriesReq.type = "hot";
     categoriesReq.start = 0;
-    categoriesReq.limit = 20;
+    categoriesReq.limit = 40;
     await Repository().getCategories(categoriesReq.toJson()).then((json) {
       var categoriesResp = CategoriesResp.fromJson(json);
         setState(() {

@@ -16,8 +16,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class BookInfoPage extends StatefulWidget {
   final String _bookId;
+  final bool _back;
+  BookInfoPage(this._bookId,this._back);
 
-  BookInfoPage(this._bookId);
 
   @override
   State<StatefulWidget> createState() => BookInfoPageState();
@@ -108,6 +109,10 @@ class BookInfoPageState extends State<BookInfoPage>
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(0))),
             onPressed: () {
+              if(this.widget._back){
+                Navigator.pop(context);
+                return;
+              }
               if (_isAddBookshelf) {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return BookContentPage(
@@ -385,7 +390,6 @@ class BookInfoPageState extends State<BookInfoPage>
       flex: 1,
       child: new GestureDetector(
         onTap: () {
-          print("走了" + tap.toString());
           if (tap == 1) {
             Navigator.push(
               context,
@@ -422,18 +426,6 @@ class BookInfoPageState extends State<BookInfoPage>
 
   //评论列表
   Widget commentList() {
-//   return ListView(
-//      padding:
-//          EdgeInsets.fromLTRB(Dimens.leftMargin, 12, Dimens.rightMargin, 12),
-//      children: <Widget>[
-//        itemView(),
-//        itemView(),
-//        itemView(),
-//        itemView(),
-//        itemView(),
-//      ],
-//    );
-
     return Padding(
       padding: EdgeInsets.fromLTRB(Dimens.leftMargin, 0, Dimens.rightMargin, 0),
       child: Column(

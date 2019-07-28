@@ -27,7 +27,9 @@ class BookSearchPageState extends State<BookSearchPage> {
         children: <Widget>[
           titleView(),
           Divider(height: 1, color: MyColors.dividerDarkColor),
-          contentView(),
+          Expanded(
+            child: contentView(),
+          ),
         ],
       )),
     );
@@ -134,13 +136,11 @@ class BookSearchPageState extends State<BookSearchPage> {
     if (_loadStatus == LoadStatus.LOADING) {
       return LoadingView();
     } else {
-      return Expanded(
-        child: ListView.builder(
-          itemBuilder: (context, index) => _buildListViewItem(index),
-          padding:
-              EdgeInsets.fromLTRB(Dimens.leftMargin, 0, Dimens.leftMargin, 0),
-          itemCount: _list.length,
-        ),
+      return ListView.builder(
+        itemBuilder: (context, index) => _buildListViewItem(index),
+        padding:
+            EdgeInsets.fromLTRB(Dimens.leftMargin, 0, Dimens.leftMargin, 0),
+        itemCount: _list.length,
       );
     }
   }
@@ -152,7 +152,7 @@ class BookSearchPageState extends State<BookSearchPage> {
         Navigator.push(
           context,
           new MaterialPageRoute(
-              builder: (context) => BookInfoPage(_list[position].id)),
+              builder: (context) => BookInfoPage(_list[position].id,false)),
         );
       },
       child: Container(

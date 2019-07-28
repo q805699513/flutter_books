@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_books/db/db_helper.dart';
 import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
+import 'package:flutter_books/ui/details/book_chapters_content_page.dart';
+import 'package:flutter_books/ui/search/book_search_page.dart';
 import 'package:flutter_books/util/utils.dart';
 
 ///@author longshaohua
@@ -55,9 +57,7 @@ class BookshelfPageState extends State<BookshelfPage> {
                       itemCount: _listBean.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
-                        crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
-                        childAspectRatio: 0.4,
+                        childAspectRatio: 0.5,
                       ),
                       itemBuilder: (context, index) {
                         return itemView(index);
@@ -74,28 +74,57 @@ class BookshelfPageState extends State<BookshelfPage> {
   }
 
   Widget itemView(int index) {
-
     String readProgress = _listBean[index].readProgress;
-    if (readProgress <0.1) {
-      readProgress = "0.1";
+    var position = index == 0 ? 0 : index % 3;
+    var axisAlignment;
+    if (position == 0) {
+      axisAlignment = CrossAxisAlignment.start;
+    } else if (position == 1) {
+      axisAlignment = CrossAxisAlignment.center;
+    } else if (position == 2) {
+      axisAlignment = CrossAxisAlignment.end;
     }
-
+    print("position$position,index=$index");
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: axisAlignment,
       children: <Widget>[
-        Image.network(
-          Utils.convertImageUrl(_listBean[index].image),
-          height: 108,
-          width: 84,
-          fit: BoxFit.cover,
+        Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(3)),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: GestureDetector(
+            child: Image.network(
+              Utils.convertImageUrl(_listBean[index].image),
+              height: 121,
+              width: 92,
+              fit: BoxFit.cover,
+            ),
+            onLongPress: () {
+              showDeleteDialog(index);
+            },
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return BookContentPage(
+                    _listBean[index].bookUrl,
+                    _listBean[index].bookId,
+                    _listBean[index].image,
+                    _listBean[index].chaptersIndex,
+                    _listBean[index].isReversed == 1,
+                    _listBean[index].title,
+                    _listBean[index].offset);
+              }));
+            },
+          ),
         ),
         SizedBox(
           height: 12,
         ),
         SizedBox(
-          width: 88,
+          width: 95,
           child: Text(
             _listBean[index].title,
+            maxLines: 2,
             style: TextStyle(
               fontSize: Dimens.textSizeM,
               color: MyColors.textBlack3,
@@ -105,10 +134,13 @@ class BookshelfPageState extends State<BookshelfPage> {
         SizedBox(
           height: 5,
         ),
-        Text(
-          "已读$readProgress%",
-          style:
-              TextStyle(fontSize: Dimens.textSizeL, color: MyColors.textBlack9),
+        SizedBox(
+          width: 96,
+          child: Text(
+            "已读$readProgress%",
+            style: TextStyle(
+                fontSize: Dimens.textSizeL, color: MyColors.textBlack9),
+          ),
         ),
       ],
     );
@@ -133,7 +165,10 @@ class BookshelfPageState extends State<BookshelfPage> {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => BookSearchPage()));
+              },
               child: Padding(
                 padding: EdgeInsets.fromLTRB(
                     Dimens.leftMargin, 0, Dimens.rightMargin, 0),
@@ -164,18 +199,47 @@ class BookshelfPageState extends State<BookshelfPage> {
     );
   }
 
+  showDeleteDialog(int index) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("删除书籍"),
+          content: Text("删除此书后，书籍源文件及阅读进度也将被删除"),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _dbHelper.deleteBooks(_listBean[index].bookId).then((i) {
+                  setState(() {
+                    _listBean.removeAt(index);
+                  });
+                });
+              },
+              child: Text("确定"),
+            ),
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("取消"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void getDbData() async {
     await _dbHelper.getTotalList().then((list) {
-      list.forEach((item) {
-        print("DbData = ${item.toString()}");
-
+      _listBean.clear();
+      list.reversed.forEach((item) {
         BookshelfBean todoItem = BookshelfBean.fromMap(item);
         setState(() {
           _listBean.add(todoItem);
         });
       });
-    }).catchError((e) {
-      print("DbData = ${e.toString()}");
-    });
+    }).catchError((e) {});
   }
 }

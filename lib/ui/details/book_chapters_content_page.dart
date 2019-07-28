@@ -11,8 +11,10 @@ import 'package:flutter_books/data/repository/repository.dart';
 import 'package:flutter_books/db/db_helper.dart';
 import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
+import 'package:flutter_books/ui/details/book_info_page.dart';
 import 'package:flutter_books/widget/load_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 ///@author longshaohua
 ///小说内容浏览页
@@ -56,7 +58,6 @@ class BookContentPageState extends State<BookContentPage>
   static final double _sImagePadding = 20;
 
   LoadStatus _loadStatus = LoadStatus.LOADING;
-  ScrollController _controller = new ScrollController();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String _content = "";
   double _height = 0;
@@ -64,27 +65,38 @@ class BookContentPageState extends State<BookContentPage>
   double _imagePadding = _sImagePadding;
   double _addBookshelfPadding = _addBookshelfWidth;
   int _duration = 200;
-  double _spaceValue = 1.2;
+  double _spaceValue = 1.4;
   double _textSizeValue = 18;
   bool _isNighttime = false;
   bool _isAddBookshelf = false;
   List<BookChaptersBean> _listBean = [];
   String _title = "";
   double _offset = 0;
+  ScrollController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller.addListener(() {
-      print(_controller.offset);
-      _offset = _controller.offset;
+    _offset = this.widget._initOffset;
+    _spGetTextSizeValue().then((value) {
+      setState(() {
+        _textSizeValue = value;
+      });
     });
+    _spGetSpaceValue().then((value) {
+      setState(() {
+        _spaceValue = value;
+      });
+    });
+
     getChaptersListData();
-    getData();
+    if (this.widget._bookUrl != null) {
+      getData();
+    }
     setStemStyle();
     isAddBookshelf().then((isAdd) {
       setState(() {
-        _isAddBookshelf = true;
+        _isAddBookshelf = isAdd;
       });
     });
   }
@@ -136,6 +148,8 @@ class BookContentPageState extends State<BookContentPage>
                 ),
               ),
             ),
+
+            /// 章节目录 list
             Expanded(
               child: ListView.separated(
                 itemCount: _listBean.length,
@@ -158,7 +172,6 @@ class BookContentPageState extends State<BookContentPage>
           GestureDetector(
             onTap: () {
               setState(() {
-//                  _isSettingGone = !_isSettingGone;
                 _bottomPadding == 0
                     ? _bottomPadding = _bottomHeight
                     : _bottomPadding = 0;
@@ -181,10 +194,10 @@ class BookContentPageState extends State<BookContentPage>
                         controller: _controller,
                         reverse: false,
                         padding: EdgeInsets.fromLTRB(
-                          Dimens.leftMargin,
+                          16,
                           16 + MediaQuery.of(context).padding.top,
                           Dimens.rightMargin,
-                          16,
+                          0,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,12 +251,12 @@ class BookContentPageState extends State<BookContentPage>
                                       } else {
                                         setState(() {
                                           _loadStatus = LoadStatus.LOADING;
-                                          ++this.widget._index;
-                                          this.widget._bookUrl =
-                                              _listBean[this.widget._index]
-                                                  .link;
-                                          getData();
                                         });
+                                        this.widget._initOffset = 0;
+                                        ++this.widget._index;
+                                        this.widget._bookUrl =
+                                            _listBean[this.widget._index].link;
+                                        getData();
                                       }
                                     } else {
                                       if (this.widget._index == 0) {
@@ -252,12 +265,12 @@ class BookContentPageState extends State<BookContentPage>
                                       } else {
                                         setState(() {
                                           _loadStatus = LoadStatus.LOADING;
-                                          --this.widget._index;
-                                          this.widget._bookUrl =
-                                              _listBean[this.widget._index]
-                                                  .link;
-                                          getData();
                                         });
+                                        this.widget._initOffset = 0;
+                                        --this.widget._index;
+                                        this.widget._bookUrl =
+                                            _listBean[this.widget._index].link;
+                                        getData();
                                       }
                                     }
                                   },
@@ -282,12 +295,12 @@ class BookContentPageState extends State<BookContentPage>
                                       } else {
                                         setState(() {
                                           _loadStatus = LoadStatus.LOADING;
-                                          ++this.widget._index;
-                                          this.widget._bookUrl =
-                                              _listBean[this.widget._index]
-                                                  .link;
-                                          getData();
                                         });
+                                        this.widget._initOffset = 0;
+                                        ++this.widget._index;
+                                        this.widget._bookUrl =
+                                            _listBean[this.widget._index].link;
+                                        getData();
                                       }
                                     } else {
                                       if (this.widget._index == 0) {
@@ -296,12 +309,13 @@ class BookContentPageState extends State<BookContentPage>
                                       } else {
                                         setState(() {
                                           _loadStatus = LoadStatus.LOADING;
-                                          --this.widget._index;
-                                          this.widget._bookUrl =
-                                              _listBean[this.widget._index]
-                                                  .link;
-                                          getData();
                                         });
+                                        _controller = ScrollController();
+                                        this.widget._initOffset = 0;
+                                        --this.widget._index;
+                                        this.widget._bookUrl =
+                                            _listBean[this.widget._index].link;
+                                        getData();
                                       }
                                     }
                                   },
@@ -332,7 +346,11 @@ class BookContentPageState extends State<BookContentPage>
                       duration: Duration(milliseconds: _duration),
                       child: GestureDetector(
                         onTap: () {
+                          Fluttertoast.showToast(msg: "加入书架成功", fontSize: 14.0);
                           addBookshelf();
+                          setState(() {
+                            _isAddBookshelf = true;
+                          });
                         },
                         child: Container(
                           width: _addBookshelfWidth,
@@ -393,6 +411,7 @@ class BookContentPageState extends State<BookContentPage>
     });
   }
 
+  /// 设置弹窗 View
   Widget settingView() {
     return Column(
       mainAxisSize: MainAxisSize.max,
@@ -434,7 +453,12 @@ class BookContentPageState extends State<BookContentPage>
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) =>
+                                BookInfoPage(this.widget._bookId, true)),
+                      );
                     },
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -517,6 +541,7 @@ class BookContentPageState extends State<BookContentPage>
                             inactiveTrackColor: MyColors.white,
                             activeTrackColor: MyColors.textPrimaryColor,
                             activeTickMarkColor: Colors.transparent,
+                            inactiveTickMarkColor: Colors.transparent,
                             trackHeight: 2.5,
                             thumbShape:
                                 RoundSliderThumbShape(enabledThumbRadius: 8),
@@ -531,6 +556,9 @@ class BookContentPageState extends State<BookContentPage>
                               setState(() {
                                 _textSizeValue = value;
                               });
+                            },
+                            onChangeEnd: (value) {
+                              _spSetTextSizeValue(value);
                             },
                           ),
                         ),
@@ -572,6 +600,7 @@ class BookContentPageState extends State<BookContentPage>
                             inactiveTrackColor: MyColors.white,
                             activeTrackColor: MyColors.textPrimaryColor,
                             activeTickMarkColor: Colors.transparent,
+                            inactiveTickMarkColor: Colors.transparent,
                             trackHeight: 2.5,
                             thumbShape:
                                 RoundSliderThumbShape(enabledThumbRadius: 8),
@@ -586,6 +615,9 @@ class BookContentPageState extends State<BookContentPage>
                               setState(() {
                                 _spaceValue = value;
                               });
+                            },
+                            onChangeEnd: (value) {
+                              _spSetSpaceValue(value);
                             },
                           ),
                         ),
@@ -716,6 +748,9 @@ class BookContentPageState extends State<BookContentPage>
   /// 添加到书架
   void addBookshelf() {
     double index = (this.widget._index * 100 / _listBean.length);
+    if (this.widget._isReversed) {
+      index = 100 - index;
+    }
     if (index < 0.1) {
       index = 0.1;
     }
@@ -729,11 +764,21 @@ class BookContentPageState extends State<BookContentPage>
       this.widget._isReversed ? 1 : 0,
       this.widget._index,
     );
-    _dbHelper.addBookshelfItem(bookshelfBean);
+    if (_isAddBookshelf) {
+      _dbHelper.updateBooks(bookshelfBean).then((i) {});
+    } else {
+      _dbHelper.addBookshelfItem(bookshelfBean);
+    }
   }
 
   /// 获取书籍内容
   void getData() async {
+    _controller = new ScrollController(
+        initialScrollOffset: this.widget._initOffset, keepScrollOffset: false);
+    _controller.addListener(() {
+      print("offset = ${_controller.offset}");
+      _offset = _controller.offset;
+    });
     await Repository()
         .getBookChaptersContent(this.widget._bookUrl)
         .then((json) {
@@ -746,12 +791,14 @@ class BookContentPageState extends State<BookContentPage>
             .replaceAll("\t", "\n")
             .replaceAll("\n\n\n\n", "\n\n");
         _title = bookContentResp.chapter.title;
+
         if (bookContentResp.chapter.isVip) {
           showVipDialog();
         }
       });
     }).catchError((e) {
       //请求出错
+      print("e = " + e.toString());
       setState(() {
         _loadStatus = LoadStatus.FAILURE;
         _title = "";
@@ -775,13 +822,14 @@ class BookContentPageState extends State<BookContentPage>
         BookChaptersResp bookChaptersResp = BookChaptersResp(json);
         setState(() {
           _listBean = bookChaptersResp.chapters;
-          if (this.widget._bookUrl == null && _listBean.length > 0) {
-            this.widget._bookUrl = _listBean[0].link;
-          }
           if (this.widget._isReversed) {
             _listBean = _listBean.reversed.toList();
           }
         });
+        if (this.widget._bookUrl == null && _listBean.length > 0) {
+          this.widget._bookUrl = _listBean[0].link;
+          getData();
+        }
       }).catchError((e) {
         //请求出错
         print(e.toString());
@@ -789,11 +837,10 @@ class BookContentPageState extends State<BookContentPage>
     }
   }
 
-  //设置状态文字颜色
+  //设置状态栏文字颜色
   void setStemStyle() async {
     await Future.delayed(const Duration(milliseconds: 500), () {
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-      _controller.jumpTo(this.widget._initOffset);
     });
   }
 
@@ -808,6 +855,28 @@ class BookContentPageState extends State<BookContentPage>
     }
   }
 
+  _spSetSpaceValue(double value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble('spaceValue', value);
+  }
+
+  _spSetTextSizeValue(double value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble('textSizeValue', value);
+  }
+
+  Future<double> _spGetSpaceValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var value = prefs.getDouble('spaceValue');
+    return value ?? 1.3;
+  }
+
+  Future<double> _spGetTextSizeValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var value = prefs.getDouble('textSizeValue');
+    return value ?? 18;
+  }
+
   @override
   void onReload() {
     _loadStatus = LoadStatus.LOADING;
@@ -815,8 +884,12 @@ class BookContentPageState extends State<BookContentPage>
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    _dbHelper.close();
+  void deactivate() {
+    super.deactivate();
+    print("deactivate");
+    isAddBookshelf().then((isAdd) {
+      _isAddBookshelf = true;
+      addBookshelf();
+    });
   }
 }

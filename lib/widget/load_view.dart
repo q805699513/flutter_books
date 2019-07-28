@@ -33,8 +33,9 @@ class _LoadingViewState extends State<LoadingView>
     _animation = IntTween(begin: 0, end: 10).animate(_controller)
       ..addListener(() {
         if (_position != _animation.value) {
-          _position = _animation.value;
-          setState(() {});
+          setState(() {
+            _position = _animation.value;
+          });
         }
       });
 
@@ -58,7 +59,7 @@ class _LoadingViewState extends State<LoadingView>
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Image.asset(
-              _imageList[_animation.value],
+              _imageList[_position],
               width: 43,
               height: 43,
               gaplessPlayback: true,

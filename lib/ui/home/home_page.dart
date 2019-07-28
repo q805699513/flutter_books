@@ -104,9 +104,9 @@ class _TabHomePageState extends State<TabHomePage> {
                 Divider(height: 1, color: MyColors.dividerDarkColor),
                 Expanded(
                   child: TabBarView(children: [
-                    HomeTabListView('male', '奇幻'),
+                    HomeTabListView('male', '仙侠'),
                     HomeTabListView('male', '玄幻'),
-                    HomeTabListView('female', '青春校园'),
+                    HomeTabListView('female', '现代言情'),
                     HomeTabListView('press', '出版小说'),
                   ]),
                 )

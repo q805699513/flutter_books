@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_books/db/db_helper.dart';
+import 'package:flutter_books/event/event_bus.dart';
 import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
 import 'package:flutter_books/ui/details/book_chapters_content_page.dart';
@@ -17,10 +21,15 @@ class BookshelfPage extends StatefulWidget {
 class BookshelfPageState extends State<BookshelfPage> {
   var _dbHelper = DbHelper();
   List<BookshelfBean> _listBean = [];
+  StreamSubscription booksSubscription;
 
   @override
   void initState() {
     super.initState();
+    booksSubscription = eventBus.on<BooksEvent>().listen((event) {
+      getDbData();
+    });
+
     getDbData();
   }
 
@@ -242,4 +251,12 @@ class BookshelfPageState extends State<BookshelfPage> {
       });
     }).catchError((e) {});
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    booksSubscription.cancel();
+  }
 }
+
+

@@ -27,6 +27,7 @@ dependencies:
   sqflite: ^1.1.6
   path_provider: ^1.1.2
   shared_preferences: ^0.5.3+4
+  event_bus: ^1.1.0
 
 dev_dependencies:
   flutter_test:

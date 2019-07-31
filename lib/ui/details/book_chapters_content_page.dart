@@ -192,15 +192,14 @@ class BookContentPageState extends State<BookContentPage>
                     ? FailureView(this)
                     : SingleChildScrollView(
                         controller: _controller,
-                        reverse: false,
                         padding: EdgeInsets.fromLTRB(
                           16,
                           16 + MediaQuery.of(context).padding.top,
-                          Dimens.rightMargin,
+                          9,
                           0,
                         ),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
                               _title,
@@ -219,13 +218,11 @@ class BookContentPageState extends State<BookContentPage>
                                     ? MyColors.contentColor
                                     : MyColors.black,
                                 fontSize: _textSizeValue,
-                                letterSpacing: 1,
-                                wordSpacing: 1,
                                 height: _spaceValue,
                               ),
                             ),
                             SizedBox(
-                              height: 16,
+                              height: 12,
                             ),
 
                             /// 章节切换

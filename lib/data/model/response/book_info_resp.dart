@@ -48,7 +48,7 @@ class BookInfoResp {
   String minorCate;
   String minorCateV2;
   String originalAuthor;
-  String retentionRatio;
+  String retentionRatioX;
   String superscript;
   String title;
   String updated;
@@ -57,7 +57,7 @@ class BookInfoResp {
   List<String> tags;
   RatingBean rating;
 
-  BookInfoResp.fromParams({this.banned, this.buytype, this.chaptersCount, this.currency, this.followerCount, this.latelyFollower, this.postCount, this.safelevel, this.serializeWordCount, this.sizetype, this.wordCount, this.gg, this.le, this.advertRead, this.allowBeanVoucher, this.allowFree, this.allowMonthly, this.allowVoucher, this.donate, this.hasCopyright, this.hasCp, this.isAllowNetSearch, this.isFineBook, this.isForbidForFreeApp, this.isSerial, this.limit, this.id, this.author, this.authorDesc, this.cat, this.contentType, this.copyrightDesc, this.cover, this.creater, this.lastChapter, this.longIntro, this.majorCate, this.majorCateV2, this.minorCate, this.minorCateV2, this.originalAuthor, this.retentionRatio, this.superscript, this.title, this.updated, this.anchors, this.gender, this.tags, this.rating});
+  BookInfoResp.fromParams({this.banned, this.buytype, this.chaptersCount, this.currency, this.followerCount, this.latelyFollower, this.postCount, this.safelevel, this.serializeWordCount, this.sizetype, this.wordCount, this.gg, this.le, this.advertRead, this.allowBeanVoucher, this.allowFree, this.allowMonthly, this.allowVoucher, this.donate, this.hasCopyright, this.hasCp, this.isAllowNetSearch, this.isFineBook, this.isForbidForFreeApp, this.isSerial, this.limit, this.id, this.author, this.authorDesc, this.cat, this.contentType, this.copyrightDesc, this.cover, this.creater, this.lastChapter, this.longIntro, this.majorCate, this.majorCateV2, this.minorCate, this.minorCateV2, this.originalAuthor, this.retentionRatioX, this.superscript, this.title, this.updated, this.anchors, this.gender, this.tags, this.rating});
 
   factory BookInfoResp(jsonStr) => jsonStr == null ? null : jsonStr is String ? new BookInfoResp.fromJson(json.decode(jsonStr)) : new BookInfoResp.fromJson(jsonStr);
 
@@ -103,7 +103,7 @@ class BookInfoResp {
     minorCate = jsonRes['minorCate'];
     minorCateV2 = jsonRes['minorCateV2'];
     originalAuthor = jsonRes['originalAuthor'];
-    retentionRatio = jsonRes['retentionRatio'];
+    retentionRatioX = jsonRes['retentionRatioX'];
     superscript = jsonRes['superscript'];
     title = jsonRes['title'];
     updated = jsonRes['updated'];
@@ -130,7 +130,7 @@ class BookInfoResp {
 
   @override
   String toString() {
-    return '{"banned": $banned,"buytype": $buytype,"chaptersCount": $chaptersCount,"currency": $currency,"followerCount": $followerCount,"latelyFollower": $latelyFollower,"postCount": $postCount,"safelevel": $safelevel,"serializeWordCount": $serializeWordCount,"sizetype": $sizetype,"wordCount": $wordCount,"_gg": $gg,"_le": $le,"advertRead": $advertRead,"allowBeanVoucher": $allowBeanVoucher,"allowFree": $allowFree,"allowMonthly": $allowMonthly,"allowVoucher": $allowVoucher,"donate": $donate,"hasCopyright": $hasCopyright,"hasCp": $hasCp,"isAllowNetSearch": $isAllowNetSearch,"isFineBook": $isFineBook,"isForbidForFreeApp": $isForbidForFreeApp,"isSerial": $isSerial,"limit": $limit,"_id": ${id != null?'${json.encode(id)}':'null'},"author": ${author != null?'${json.encode(author)}':'null'},"authorDesc": ${authorDesc != null?'${json.encode(authorDesc)}':'null'},"cat": ${cat != null?'${json.encode(cat)}':'null'},"contentType": ${contentType != null?'${json.encode(contentType)}':'null'},"copyrightDesc": ${copyrightDesc != null?'${json.encode(copyrightDesc)}':'null'},"cover": ${cover != null?'${json.encode(cover)}':'null'},"creater": ${creater != null?'${json.encode(creater)}':'null'},"lastChapter": ${lastChapter != null?'${json.encode(lastChapter)}':'null'},"longIntro": ${longIntro != null?'${json.encode(longIntro)}':'null'},"majorCate": ${majorCate != null?'${json.encode(majorCate)}':'null'},"majorCateV2": ${majorCateV2 != null?'${json.encode(majorCateV2)}':'null'},"minorCate": ${minorCate != null?'${json.encode(minorCate)}':'null'},"minorCateV2": ${minorCateV2 != null?'${json.encode(minorCateV2)}':'null'},"originalAuthor": ${originalAuthor != null?'${json.encode(originalAuthor)}':'null'},"retentionRatio": ${retentionRatio != null?'${json.encode(retentionRatio)}':'null'},"superscript": ${superscript != null?'${json.encode(superscript)}':'null'},"title": ${title != null?'${json.encode(title)}':'null'},"updated": ${updated != null?'${json.encode(updated)}':'null'},"anchors": $anchors,"gender": $gender,"tags": $tags,"rating": $rating}';
+    return '{"banned": $banned,"buytype": $buytype,"chaptersCount": $chaptersCount,"currency": $currency,"followerCount": $followerCount,"latelyFollower": $latelyFollower,"postCount": $postCount,"safelevel": $safelevel,"serializeWordCount": $serializeWordCount,"sizetype": $sizetype,"wordCount": $wordCount,"_gg": $gg,"_le": $le,"advertRead": $advertRead,"allowBeanVoucher": $allowBeanVoucher,"allowFree": $allowFree,"allowMonthly": $allowMonthly,"allowVoucher": $allowVoucher,"donate": $donate,"hasCopyright": $hasCopyright,"hasCp": $hasCp,"isAllowNetSearch": $isAllowNetSearch,"isFineBook": $isFineBook,"isForbidForFreeApp": $isForbidForFreeApp,"isSerial": $isSerial,"limit": $limit,"_id": ${id != null?'${json.encode(id)}':'null'},"author": ${author != null?'${json.encode(author)}':'null'},"authorDesc": ${authorDesc != null?'${json.encode(authorDesc)}':'null'},"cat": ${cat != null?'${json.encode(cat)}':'null'},"contentType": ${contentType != null?'${json.encode(contentType)}':'null'},"copyrightDesc": ${copyrightDesc != null?'${json.encode(copyrightDesc)}':'null'},"cover": ${cover != null?'${json.encode(cover)}':'null'},"creater": ${creater != null?'${json.encode(creater)}':'null'},"lastChapter": ${lastChapter != null?'${json.encode(lastChapter)}':'null'},"longIntro": ${longIntro != null?'${json.encode(longIntro)}':'null'},"majorCate": ${majorCate != null?'${json.encode(majorCate)}':'null'},"majorCateV2": ${majorCateV2 != null?'${json.encode(majorCateV2)}':'null'},"minorCate": ${minorCate != null?'${json.encode(minorCate)}':'null'},"minorCateV2": ${minorCateV2 != null?'${json.encode(minorCateV2)}':'null'},"originalAuthor": ${originalAuthor != null?'${json.encode(originalAuthor)}':'null'},"retentionRatioX": ${retentionRatioX != null?'${json.encode(retentionRatioX)}':'null'},"superscript": ${superscript != null?'${json.encode(superscript)}':'null'},"title": ${title != null?'${json.encode(title)}':'null'},"updated": ${updated != null?'${json.encode(updated)}':'null'},"anchors": $anchors,"gender": $gender,"tags": $tags,"rating": $rating}';
   }
 }
 

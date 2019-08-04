@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_books/db/db_helper.dart';
 import 'package:flutter_books/event/event_bus.dart';
@@ -22,14 +21,15 @@ class BookshelfPageState extends State<BookshelfPage> {
   var _dbHelper = DbHelper();
   List<BookshelfBean> _listBean = [];
   StreamSubscription booksSubscription;
+  final String _emptyTitle = "添加书籍";
 
   @override
   void initState() {
     super.initState();
     booksSubscription = eventBus.on<BooksEvent>().listen((event) {
+      print("");
       getDbData();
     });
-
     getDbData();
   }
 
@@ -84,6 +84,18 @@ class BookshelfPageState extends State<BookshelfPage> {
 
   Widget itemView(int index) {
     String readProgress = _listBean[index].readProgress;
+    if (readProgress == "0") {
+      readProgress = "未读";
+    } else {
+      readProgress = "已读$readProgress%";
+    }
+
+    bool addBookshelfItem = false;
+    if (_listBean[index].title == _emptyTitle) {
+      addBookshelfItem = true;
+      readProgress = "";
+    }
+
     var position = index == 0 ? 0 : index % 3;
     var axisAlignment;
     if (position == 0) {
@@ -93,7 +105,6 @@ class BookshelfPageState extends State<BookshelfPage> {
     } else if (position == 2) {
       axisAlignment = CrossAxisAlignment.end;
     }
-    print("position$position,index=$index");
     return Column(
       crossAxisAlignment: axisAlignment,
       children: <Widget>[
@@ -103,40 +114,52 @@ class BookshelfPageState extends State<BookshelfPage> {
           ),
           clipBehavior: Clip.antiAlias,
           child: GestureDetector(
-            child: Image.network(
-              Utils.convertImageUrl(_listBean[index].image),
-              height: 121,
-              width: 92,
-              fit: BoxFit.cover,
-            ),
+            child: addBookshelfItem
+                ? Image.asset(
+                    "images/icon_bookshelf_empty_add.png",
+                    height: 121,
+                    width: 92,
+                    fit: BoxFit.cover,
+                  )
+                : Image.network(
+                    Utils.convertImageUrl(_listBean[index].image),
+                    height: 121,
+                    width: 92,
+                    fit: BoxFit.cover,
+                  ),
             onLongPress: () {
-              showDeleteDialog(index);
+              if (!addBookshelfItem) {
+                showDeleteDialog(index);
+              }
             },
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return BookContentPage(
-                    _listBean[index].bookUrl,
-                    _listBean[index].bookId,
-                    _listBean[index].image,
-                    _listBean[index].chaptersIndex,
-                    _listBean[index].isReversed == 1,
-                    _listBean[index].title,
-                    _listBean[index].offset);
-              }));
+              if (!addBookshelfItem) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return BookContentPage(
+                      _listBean[index].bookUrl,
+                      _listBean[index].bookId,
+                      _listBean[index].image,
+                      _listBean[index].chaptersIndex,
+                      _listBean[index].isReversed == 1,
+                      _listBean[index].title,
+                      _listBean[index].offset);
+                }));
+              }
             },
           ),
         ),
         SizedBox(
-          height: 12,
+          height: 10,
         ),
         SizedBox(
-          width: 95,
+          width: 96,
           child: Text(
             _listBean[index].title,
             maxLines: 2,
             style: TextStyle(
               fontSize: Dimens.textSizeM,
-              color: MyColors.textBlack3,
+              color:
+                  addBookshelfItem ? MyColors.textBlack9 : MyColors.textBlack3,
             ),
           ),
         ),
@@ -146,7 +169,7 @@ class BookshelfPageState extends State<BookshelfPage> {
         SizedBox(
           width: 96,
           child: Text(
-            "已读$readProgress%",
+            readProgress,
             style: TextStyle(
                 fontSize: Dimens.textSizeL, color: MyColors.textBlack9),
           ),
@@ -240,6 +263,7 @@ class BookshelfPageState extends State<BookshelfPage> {
     );
   }
 
+  /// 从数据库查询书架书籍
   void getDbData() async {
     await _dbHelper.getTotalList().then((list) {
       _listBean.clear();
@@ -249,14 +273,23 @@ class BookshelfPageState extends State<BookshelfPage> {
           _listBean.add(todoItem);
         });
       });
+      setAddItem();
     }).catchError((e) {});
+  }
+
+  /// add 样式 item
+  void setAddItem() {
+    BookshelfBean todoItem =
+        BookshelfBean(_emptyTitle, null, "", "", "", 0, 0, 0);
+    setState(() {
+      _listBean.add(todoItem);
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
     booksSubscription.cancel();
+    _dbHelper.close();
   }
 }
-
-

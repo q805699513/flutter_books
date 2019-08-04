@@ -9,6 +9,7 @@ import 'package:flutter_books/data/model/response/book_content_resp.dart';
 import 'package:flutter_books/data/model/response/book_genuine_source_resp.dart';
 import 'package:flutter_books/data/repository/repository.dart';
 import 'package:flutter_books/db/db_helper.dart';
+import 'package:flutter_books/event/event_bus.dart';
 import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
 import 'package:flutter_books/ui/details/book_info_page.dart';
@@ -90,9 +91,6 @@ class BookContentPageState extends State<BookContentPage>
     });
 
     getChaptersListData();
-    if (this.widget._bookUrl != null) {
-      getData();
-    }
     setStemStyle();
     isAddBookshelf().then((isAdd) {
       setState(() {
@@ -766,6 +764,7 @@ class BookContentPageState extends State<BookContentPage>
     } else {
       _dbHelper.addBookshelfItem(bookshelfBean);
     }
+    eventBus.fire(new BooksEvent());
   }
 
   /// 获取书籍内容
@@ -823,10 +822,10 @@ class BookContentPageState extends State<BookContentPage>
             _listBean = _listBean.reversed.toList();
           }
         });
-        if (this.widget._bookUrl == null && _listBean.length > 0) {
+        if (this.widget._bookUrl == null || this.widget._bookUrl.length == 0) {
           this.widget._bookUrl = _listBean[0].link;
-          getData();
         }
+        getData();
       }).catchError((e) {
         //请求出错
         print(e.toString());

@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_books/data/model/response/book_info_resp.dart';
 import 'package:flutter_books/data/repository/repository.dart';
 import 'package:flutter_books/db/db_helper.dart';
+import 'package:flutter_books/event/event_bus.dart';
 import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
 import 'package:flutter_books/ui/details/book_chapters_content_page.dart';
@@ -17,8 +20,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 class BookInfoPage extends StatefulWidget {
   final String _bookId;
   final bool _back;
-  BookInfoPage(this._bookId,this._back);
 
+  BookInfoPage(this._bookId, this._back);
 
   @override
   State<StatefulWidget> createState() => BookInfoPageState();
@@ -39,11 +42,15 @@ class BookInfoPageState extends State<BookInfoPage>
 
   //判断是否加入书架
   bool _isAddBookshelf = false;
-  BookshelfBean bookshelfBean;
+  BookshelfBean _bookshelfBean;
+  StreamSubscription booksSubscription;
 
   @override
   void initState() {
     super.initState();
+    booksSubscription = eventBus.on<BooksEvent>().listen((event) {
+      getDbData();
+    });
     getData();
     _controller.addListener(() {
       print(_controller.offset);
@@ -109,20 +116,20 @@ class BookInfoPageState extends State<BookInfoPage>
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(0))),
             onPressed: () {
-              if(this.widget._back){
+              if (this.widget._back) {
                 Navigator.pop(context);
                 return;
               }
               if (_isAddBookshelf) {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return BookContentPage(
-                      bookshelfBean.bookUrl,
+                      _bookshelfBean.bookUrl,
                       this.widget._bookId,
                       _image,
-                      bookshelfBean.chaptersIndex,
-                      bookshelfBean.isReversed == 1,
+                      _bookshelfBean.chaptersIndex,
+                      _bookshelfBean.isReversed == 1,
                       _bookName,
-                      bookshelfBean.offset);
+                      _bookshelfBean.offset);
                 }));
               } else {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -132,7 +139,9 @@ class BookInfoPageState extends State<BookInfoPage>
               }
             },
             child: Text(
-              _isAddBookshelf ? "继续阅读" : "开始阅读",
+              _isAddBookshelf
+                  ? (_bookshelfBean.readProgress == "0" ? "开始阅读" : "继续阅读")
+                  : "开始阅读",
               style: TextStyle(color: MyColors.white, fontSize: 16),
             ),
           ),
@@ -175,23 +184,24 @@ class BookInfoPageState extends State<BookInfoPage>
             overflow: TextOverflow.ellipsis,
           ),
           Positioned(
-              right: 0,
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {},
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        Dimens.leftMargin, 0, Dimens.rightMargin, 0),
-                    child: Image.asset(
-                      'images/icon_share.png',
-                      color: _iconColor,
-                      width: 18,
-                      height: Dimens.titleHeight,
-                    ),
+            right: 0,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {},
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      Dimens.leftMargin, 0, Dimens.rightMargin, 0),
+                  child: Image.asset(
+                    'images/icon_share.png',
+                    color: _iconColor,
+                    width: 18,
+                    height: Dimens.titleHeight,
                   ),
                 ),
-              )),
+              ),
+            ),
+          ),
           Positioned(
             bottom: 0,
             left: 0,
@@ -376,7 +386,12 @@ class BookInfoPageState extends State<BookInfoPage>
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        bodyChildView('images/icon_details_bookshelf.png', "加入书架", 0),
+        bodyChildView(
+            _isAddBookshelf
+                ? 'images/icon_details_bookshelf_add.png'
+                : 'images/icon_details_bookshelf.png',
+            _isAddBookshelf ? "已在书架" : "加入书架",
+            0),
         bodyChildView('images/icon_details_chapter.png',
             _bookInfoResp.chaptersCount.toString() + "章", 1),
         bodyChildView('images/icon_details_reward.png', "支持作品", 2),
@@ -390,7 +405,28 @@ class BookInfoPageState extends State<BookInfoPage>
       flex: 1,
       child: new GestureDetector(
         onTap: () {
+          if (tap == 0) {
+            if (!_isAddBookshelf) {
+              var bean = BookshelfBean(
+                _bookName,
+                _image,
+                "0",
+                "",
+                this.widget._bookId,
+                0,
+                0,
+                0,
+              );
+              _dbHelper.addBookshelfItem(bean);
+              this._bookshelfBean = bean;
+              setState(() {
+                _isAddBookshelf = true;
+              });
+              eventBus.fire(new BooksEvent());
+            }
+          }
           if (tap == 1) {
+            /// 章节目录页
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -538,20 +574,34 @@ class BookInfoPageState extends State<BookInfoPage>
 
   void getData() async {
     await Repository().getBookInfo(this.widget._bookId).then((json) {
+      print("getData1");
       setState(() {
         _loadStatus = LoadStatus.SUCCESS;
         _bookInfoResp = BookInfoResp(json);
         _image = _bookInfoResp.cover;
         _bookName = _bookInfoResp.title;
       });
+      getDbData();
     }).catchError((e) {
-      _loadStatus = LoadStatus.FAILURE;
+      print("getData2${e.toString()}");
+      setState(() {
+        _loadStatus = LoadStatus.FAILURE;
+      });
     });
+  }
+
+  void getDbData() async {
     var list = await _dbHelper.queryBooks(_bookInfoResp.id);
-    if (list != null ) {
-      bookshelfBean = list;
+    if (list != null) {
+      print("getDbData1");
+      _bookshelfBean = list;
       setState(() {
         _isAddBookshelf = true;
+      });
+    } else {
+      print("getDbData2");
+      setState(() {
+        _isAddBookshelf = false;
       });
     }
   }
@@ -562,5 +612,11 @@ class BookInfoPageState extends State<BookInfoPage>
       _loadStatus = LoadStatus.LOADING;
     });
     getData();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    booksSubscription.cancel();
   }
 }

@@ -53,7 +53,6 @@ class DbHelper {
     var dbClient = await db;
     var result = await dbClient
         .query(_tableName, where: "bookId = ?", whereArgs: [bookId]);
-
     if (result != null && result.length > 0) {
      return BookshelfBean.fromMap(result[0]);
     }

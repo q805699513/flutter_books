@@ -11,12 +11,13 @@ import 'package:flutter_books/ui/me/me_page.dart';
 ///小说首页
 
 class MyHomePage extends StatefulWidget {
+  static const platform = const MethodChannel("samples.flutter.io/permission");
+
   @override
   State<StatefulWidget> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State {
-  static const platform = const MethodChannel("samples.flutter.io/permission");
   int _tabIndex = 0;
   final List<Image> _tabImages = [
     Image.asset('images/icon_tab_bookshelf_n.png',
@@ -42,7 +43,7 @@ class _MyHomePageState extends State {
 
   Future<Null> _getPermission() async {
     final String result =
-        await platform.invokeMethod('requestCameraPermissions');
+        await MyHomePage.platform.invokeMethod('requestCameraPermissions');
     print("result=$result");
   }
 

@@ -39,7 +39,7 @@ https://github.com/q805699513/flutter_books
 
 ### TODO
 
-  更换另一个小说源，目前暂时使用的追书api
+  更换另一个小说源，目前暂时使用的追书api（进行中）
   
   
 ## License

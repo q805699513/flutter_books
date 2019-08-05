@@ -53,7 +53,6 @@ class _AboutPandaPageState extends State<StatefulWidget> {
                         style: TextStyle(color: Colors.red, fontSize: 18),
                       ),
                       onTap: () {
-                        print("launchURL走了");
                         _launchURL();
                       },
                     ),
@@ -76,8 +75,9 @@ class _AboutPandaPageState extends State<StatefulWidget> {
     );
   }
 
+  /// 原生代码调用系统浏览器显示网页，url 为要打开的链接值传递
   Future<Null> _launchURL() async {
-    print("launchURL=1111");
+    print("launchURL start");
     final String result = await MyHomePage.platform.invokeMethod(
       'launchURL',
       <String, dynamic>{

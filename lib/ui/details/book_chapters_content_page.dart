@@ -66,7 +66,7 @@ class BookContentPageState extends State<BookContentPage>
   double _imagePadding = _sImagePadding;
   double _addBookshelfPadding = _addBookshelfWidth;
   int _duration = 200;
-  double _spaceValue = 1.4;
+  double _spaceValue = 1.8;
   double _textSizeValue = 18;
   bool _isNighttime = false;
   bool _isAddBookshelf = false;
@@ -120,6 +120,8 @@ class BookContentPageState extends State<BookContentPage>
                 onTap: () {
                   setState(() {
                     this.widget._isReversed = !this.widget._isReversed;
+                    this.widget._index =
+                        _listBean.length - 1 - this.widget._index;
                     _listBean = _listBean.reversed.toList();
                   });
                 },
@@ -674,6 +676,7 @@ class BookContentPageState extends State<BookContentPage>
           setState(() {
             setState(() {
               _loadStatus = LoadStatus.LOADING;
+              this.widget._initOffset = 0;
               this.widget._index = index;
               this.widget._bookUrl = _listBean[index].link;
               getData();

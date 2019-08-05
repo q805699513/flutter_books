@@ -31,6 +31,8 @@ class MyColors{
   static final Color meBgColor = Color(0xFF545A65);
   static final Color meTextColor = Color(0xFF85682F);
   static final Color meRedTextColor = Color(0xFFFF7634);
+  static final Color paginationColor = Color(0xFFD8D8D8);
+
 
 
 

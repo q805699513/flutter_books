@@ -6,6 +6,7 @@ import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
 import 'package:flutter_books/ui/details/book_info_page.dart';
 import 'package:flutter_books/util/utils.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 ///@author longshaohua
 ///书城 ListView
@@ -27,6 +28,14 @@ class _HomeTabListViewState extends State<HomeTabListView>
     with AutomaticKeepAliveClientMixin {
   List<Books> _list = [];
 
+  List<String> _listImage = [
+    "images/icon_swiper_1.png",
+    "images/icon_swiper_2.png",
+    "images/icon_swiper_3.png",
+    "images/icon_swiper_4.png",
+    "images/icon_swiper_5.png",
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -36,10 +45,12 @@ class _HomeTabListViewState extends State<HomeTabListView>
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: EdgeInsets.fromLTRB(Dimens.leftMargin, 0, Dimens.leftMargin, 0),
-      itemCount: _list.length,
+      itemCount: _list.length + 1,
       itemBuilder: (context, position) {
-        return _buildListViewItem(position);
+        if (position == 0) {
+          return _swiper();
+        }
+        return _buildListViewItem(position - 1);
       },
     );
   }
@@ -50,11 +61,13 @@ class _HomeTabListViewState extends State<HomeTabListView>
       onTap: () {
         Navigator.push(
           context,
-          new MaterialPageRoute(builder: (context) => BookInfoPage(_list[position].id,false)),
+          new MaterialPageRoute(
+              builder: (context) => BookInfoPage(_list[position].id, false)),
         );
       },
       child: Container(
-        padding: EdgeInsets.fromLTRB(0, 12, 0, 12),
+        padding:
+            EdgeInsets.fromLTRB(Dimens.leftMargin, 12, Dimens.leftMargin, 12),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -73,16 +86,14 @@ class _HomeTabListViewState extends State<HomeTabListView>
                 children: <Widget>[
                   Text(
                     _list[position].title,
-                    style:
-                        TextStyle(color: MyColors.textBlack3, fontSize: 16),
+                    style: TextStyle(color: MyColors.textBlack3, fontSize: 16),
                   ),
                   SizedBox(height: 6),
                   Text(
                     _list[position].shortIntro,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style:
-                        TextStyle(color: MyColors.textBlack6, fontSize: 14),
+                    style: TextStyle(color: MyColors.textBlack6, fontSize: 14),
                   ),
                   SizedBox(
                     height: 9,
@@ -124,9 +135,52 @@ class _HomeTabListViewState extends State<HomeTabListView>
     );
   }
 
-  tagView(String tag) {
+  /// 轮播图
+  Widget _swiper() {
     return Container(
-      padding: EdgeInsets.fromLTRB(5, 0, 5,0),
+      height: 180,
+      child: Swiper(
+        itemBuilder: (BuildContext context, int index) {
+          print("index = $index");
+          return Container(
+            margin: const EdgeInsets.only(top: 16,bottom: 10),
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(_listImage[index]),
+                  fit: BoxFit.cover,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(5))),
+          );
+        },
+        autoplayDisableOnInteraction: true,
+        itemHeight: 180,
+        itemCount: 5,
+        onTap: (index) {
+          Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (context) => BookInfoPage("59ba0dbb017336e411085a4e", false)),
+          );
+        },
+        viewportFraction: 0.9,
+        scale: 0.93,
+        outer: true,
+        pagination: new SwiperPagination(
+          alignment: Alignment.bottomCenter,
+          builder: DotSwiperPaginationBuilder(
+            activeColor: MyColors.textBlack6,
+            color: MyColors.paginationColor,
+            size: 5,
+            activeSize: 5,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget tagView(String tag) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
       alignment: Alignment.center,
       child: Text(
         tag,
@@ -150,9 +204,9 @@ class _HomeTabListViewState extends State<HomeTabListView>
     categoriesReq.limit = 40;
     await Repository().getCategories(categoriesReq.toJson()).then((json) {
       var categoriesResp = CategoriesResp.fromJson(json);
-        setState(() {
-          _list = categoriesResp.books;
-        });
+      setState(() {
+        _list = categoriesResp.books;
+      });
     }).catchError((e) {
       print(e.toString());
     });

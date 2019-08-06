@@ -4,10 +4,17 @@
 ---
 
 # Example
+### gif
+<image src="https://github.com/q805699513/flutter_books/blob/master/doc/g1.gif?raw=true" width="250px"/><image src="https://github.com/q805699513/flutter_books/blob/master/doc/g2.gif?raw=true" width="250px"/>
 
-<image src="https://github.com/q805699513/PagerSlidingTabStrip/blob/master/image/no1.gif?raw=true" width="300px"/> <image src="https://github.com/q805699513/PagerSlidingTabStrip/blob/master/image/no2.gif?raw=true" width="300px"/>  
-<image src="https://github.com/q805699513/PagerSlidingTabStrip/blob/master/image/no3.png?raw=true" width="300px"/>  <image src="https://github.com/q805699513/PagerSlidingTabStrip/blob/master/image/no4.png?raw=true" width="300px"/>
-<image src="https://github.com/q805699513/PagerSlidingTabStrip/blob/master/image/no5.png?raw=true" width="300px"/>
+### image
+
+<image src="https://github.com/q805699513/flutter_books/blob/master/doc/image1.png?raw=true" width="250px"/>  <image src="https://github.com/q805699513/flutter_books/blob/master/doc/image2.png?raw=true" width="250px"/>  <image src="https://github.com/q805699513/flutter_books/blob/master/doc/image3.png?raw=true" width="250px"/>
+
+<image src="https://github.com/q805699513/flutter_books/blob/master/doc/image4.png?raw=true" width="250px"/>  <image src="https://github.com/q805699513/flutter_books/blob/master/doc/image5.png?raw=true" width="250px"/>  <image src="https://github.com/q805699513/flutter_books/blob/master/doc/image6.png?raw=true" width="250px"/>
+
+<image src="https://github.com/q805699513/flutter_books/blob/master/doc/image7.png?raw=true" width="250px"/>  <image src="https://github.com/q805699513/flutter_books/blob/master/doc/image8.png?raw=true" width="250px"/>  <image src="https://github.com/q805699513/flutter_books/blob/master/doc/image9.png?raw=true" width="250px"/>
+
 ---
 
 # Usage
@@ -20,10 +27,12 @@ https://github.com/q805699513/flutter_books
 ```
 ### 项目结构
 
+<image src="https://github.com/q805699513/flutter_books/blob/master/doc/lib.png?raw=true" width="330px"/>
+
 | 目录        |                    描述                                | 
-| ----------- | --------------------------------- | 
-| data       |   网络请求 [Dio](https://github.com/flutterchina/dio)   | 
-| db         | 数据库存储 [sqflite](https://github.com/tekartik/sqflite)   |
+| -----------| --------------------------------- | 
+| data       |  网络请求封装 [Dio](https://github.com/flutterchina/dio)   | 
+| db         | 书架数据库封装 [sqflite](https://github.com/tekartik/sqflite)   |
 | event      | 事件总线 [dart-event-bus](https://github.com/marcojakob/dart-event-bus)   |
 | res        | 将 colors、dimens、style 等写在该目录下   |
 | ui          | ui 界面   |
@@ -36,10 +45,22 @@ https://github.com/q805699513/flutter_books
 | util   | 工具类   |
 | widget   | 自定义 view   |
 
+### 下载
+
+[点击下载](http://lshappdemo.file.alimmdn.com/video/books.apk)
+
+#### 二维码下载
+
+<image src="https://github.com/q805699513/flutter_books/blob/master/doc/download.png?raw=true" width="200px"/>
+
+### 版本记录
+
+#### v1.0.0：2019-08-06
+*  小说 app 初始版
 
 ### TODO
 
-  更换另一个小说源，目前暂时使用的追书api（进行中）
+  更换另一个小说源，目前暂时使用的追书api。（进行中）
   
   
 ## License

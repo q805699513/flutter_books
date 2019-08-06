@@ -6,6 +6,7 @@ import 'package:flutter_books/res/colors.dart';
 import 'package:flutter_books/res/dimens.dart';
 import 'package:flutter_books/ui/details/book_info_page.dart';
 import 'package:flutter_books/util/utils.dart';
+import 'package:flutter_books/widget/load_view.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 ///@author longshaohua
@@ -25,9 +26,10 @@ class HomeTabListView extends StatefulWidget {
 }
 
 class _HomeTabListViewState extends State<HomeTabListView>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin
+    implements OnLoadReloadListener {
   List<Books> _list = [];
-
+  LoadStatus _loadStatus = LoadStatus.LOADING;
   List<String> _listImage = [
     "images/icon_swiper_1.png",
     "images/icon_swiper_2.png",
@@ -44,6 +46,12 @@ class _HomeTabListViewState extends State<HomeTabListView>
 
   @override
   Widget build(BuildContext context) {
+    if (_loadStatus == LoadStatus.LOADING) {
+      return LoadingView();
+    }
+    if (_loadStatus == LoadStatus.FAILURE) {
+      return FailureView(this);
+    }
     return ListView.builder(
       itemCount: _list.length + 1,
       itemBuilder: (context, position) {
@@ -143,7 +151,7 @@ class _HomeTabListViewState extends State<HomeTabListView>
         itemBuilder: (BuildContext context, int index) {
           print("index = $index");
           return Container(
-            margin: const EdgeInsets.only(top: 16,bottom: 10),
+            margin: const EdgeInsets.only(top: 16, bottom: 10),
             decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(_listImage[index]),
@@ -159,7 +167,8 @@ class _HomeTabListViewState extends State<HomeTabListView>
           Navigator.push(
             context,
             new MaterialPageRoute(
-                builder: (context) => BookInfoPage("59ba0dbb017336e411085a4e", false)),
+                builder: (context) =>
+                    BookInfoPage("59ba0dbb017336e411085a4e", false)),
           );
         },
         viewportFraction: 0.9,
@@ -205,13 +214,25 @@ class _HomeTabListViewState extends State<HomeTabListView>
     await Repository().getCategories(categoriesReq.toJson()).then((json) {
       var categoriesResp = CategoriesResp.fromJson(json);
       setState(() {
+        _loadStatus = LoadStatus.SUCCESS;
         _list = categoriesResp.books;
       });
     }).catchError((e) {
+      setState(() {
+        _loadStatus = LoadStatus.FAILURE;
+      });
       print(e.toString());
     });
   }
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void onReload() {
+    setState(() {
+      _loadStatus = LoadStatus.LOADING;
+    });
+    getData();
+  }
 }

@@ -133,7 +133,12 @@ class BookshelfPageState extends State<BookshelfPage> {
               }
             },
             onTap: () {
-              if (!addBookshelfItem) {
+              if (addBookshelfItem) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BookSearchPage()),
+                );
+              } else {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return BookContentPage(
                       _listBean[index].bookUrl,

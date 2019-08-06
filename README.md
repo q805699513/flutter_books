@@ -6,7 +6,7 @@
 ## Show
 
 ### gif
-<image src="https://github.com/q805699513/flutter_books/blob/master/doc/g1.gif?raw=true" width="250px"/><image src="https://github.com/q805699513/flutter_books/blob/master/doc/g2.gif?raw=true" width="250px"/>
+<image src="https://github.com/q805699513/flutter_books/blob/master/doc/g1.gif?raw=true" width="300px"/>  <image src="https://github.com/q805699513/flutter_books/blob/master/doc/g2.gif?raw=true" width="300px"/>
 
 ### image
 

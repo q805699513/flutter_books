@@ -3,7 +3,7 @@
 一款 Flutter 写的小说 App
 ---
 
-# Show
+## Show
 
 ### gif
 <image src="https://github.com/q805699513/flutter_books/blob/master/doc/g1.gif?raw=true" width="250px"/><image src="https://github.com/q805699513/flutter_books/blob/master/doc/g2.gif?raw=true" width="250px"/>
@@ -18,7 +18,7 @@
 
 ---
 
-# Usage
+## Usage
 
 ### git
 

@@ -1,6 +1,6 @@
 # Panda看书
 
-一款 Flutter 写的小说 App
+一款 Flutter 写的小说 App，功能齐全
 ---
 
 ## Show

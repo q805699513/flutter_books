@@ -50,7 +50,7 @@ https://github.com/q805699513/flutter_books
 
 [点击下载](http://lshappdemo.file.alimmdn.com/video/books.apk)
 
-#### 二维码下载
+#### 二维码下载（Android）
 
 <image src="https://github.com/q805699513/flutter_books/blob/master/doc/download.png?raw=true" width="200px"/>
 

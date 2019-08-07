@@ -23,7 +23,7 @@
 ### git
 
 ```groovy
-https://github.com/q805699513/flutter_books
+https://github.com/q805699513/flutter_books.git
 
 ```
 ### 项目结构

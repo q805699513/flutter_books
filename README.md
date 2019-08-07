@@ -61,7 +61,7 @@ https://github.com/q805699513/flutter_books.git
 
 ### TODO
 
-  更换另一个小说源，目前暂时使用的追书api。（进行中）
+  更换另一个爬虫小说源，目前暂时使用的[追书api](https://juejin.im/entry/593a3fdf61ff4b006c737ca4)。（进行中）
   
   
 ## License

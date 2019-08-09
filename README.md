@@ -1,6 +1,9 @@
-# Panda看书
+<p align="center"><img src="https://github.com/q805699513/flutter_books/blob/master/android/app/src/main/res/mipmap-xxhdpi/icon_panda.png" align="center" width="175"></p>
+<h1 align="center">Panda 看书</h1>
+
 
 一款 Flutter 写的小说 App，功能齐全
+
 ---
 
 ## Show

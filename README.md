@@ -48,7 +48,7 @@ https://github.com/q805699513/flutter_books.git
 
 ### 下载
 
-[点击下载](http://lshappdemo.file.alimmdn.com/video/books.apk)
+[点击下载](https://file-1301408689.cos.ap-guangzhou.myqcloud.com/apk/books.apk)
 
 #### 二维码下载（Android）
 

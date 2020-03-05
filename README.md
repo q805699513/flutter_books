@@ -28,7 +28,7 @@ https://github.com/q805699513/flutter_books.git
 ```
 ### 项目结构
 
-<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/lib.png"/>
+<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/lib.png?raw=true" width="350px"/>
 
 | 目录        |                    描述                                | 
 | -----------| --------------------------------- | 
@@ -52,7 +52,7 @@ https://github.com/q805699513/flutter_books.git
 
 #### 二维码下载（Android）
 
-<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/download.png?raw=true" width="200px"/>
+<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/download.png?raw=true" width="210px"/>
 
 ### 版本记录
 

@@ -28,7 +28,7 @@ https://github.com/q805699513/flutter_books.git
 ```
 ### 项目结构
 
-<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/lib.png?raw=true" width="330px"/>
+<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/lib.png"/>
 
 | 目录        |                    描述                                | 
 | -----------| --------------------------------- | 

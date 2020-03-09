@@ -6,15 +6,15 @@
 ## Show
 
 ### gif
-<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/g1.gif?raw=true" width="300px"/>  <image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/g2.gif?raw=true" width="300px"/>
+<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/githubImage/g1.gif?raw=true" width="300px"/>  <image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/githubImage/g2.gif?raw=true" width="300px"/>
 
 ### image
 
-<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/image1.png?raw=true" width="250px"/>  <image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/image2.png?raw=true" width="250px"/>  <image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/image3.png?raw=true" width="250px"/>
+<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/githubImage/image1.png?raw=true" width="250px"/>  <image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/githubImage/image2.png?raw=true" width="250px"/>  <image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/githubImage/image3.png?raw=true" width="250px"/>
 
-<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/image4.png?raw=true" width="250px"/>  <image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/image5.png?raw=true" width="250px"/>  <image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/image6.png?raw=true" width="250px"/>
+<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/githubImage/image4.png?raw=true" width="250px"/>  <image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/githubImage/image5.png?raw=true" width="250px"/>  <image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/githubImage/image6.png?raw=true" width="250px"/>
 
-<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/image7.png?raw=true" width="250px"/>  <image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/image8.png?raw=true" width="250px"/>  <image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/image9.png?raw=true" width="250px"/>
+<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/githubImage/image7.png?raw=true" width="250px"/>  <image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/githubImage/image8.png?raw=true" width="250px"/>  <image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/githubImage/image9.png?raw=true" width="250px"/>
 
 ---
 
@@ -28,7 +28,7 @@ https://github.com/q805699513/flutter_books.git
 ```
 ### 项目结构
 
-<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/lib.png?raw=true" width="350px"/>
+<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/githubImage/lib.png?raw=true" width="350px"/>
 
 | 目录        |                    描述                                | 
 | -----------| --------------------------------- | 
@@ -52,7 +52,7 @@ https://github.com/q805699513/flutter_books.git
 
 #### 二维码下载（Android）
 
-<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/image/download.png?raw=true" width="210px"/>
+<image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/githubImage/download.png?raw=true" width="210px"/>
 
 ### 版本记录
 

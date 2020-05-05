@@ -58,6 +58,9 @@ https://github.com/q805699513/flutter_books.git
 
 ### 版本记录
 
+#### v1.0.0：2019-05-05
+*  使用最新的 flutter 版本
+
 #### v1.0.0：2019-08-06
 *  小说 app 初始版
 

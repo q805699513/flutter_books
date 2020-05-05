@@ -7,13 +7,15 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import android.util.Log;
 
-import io.flutter.app.FlutterActivity;
+import io.flutter.embedding.android.FlutterActivity;
+import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugins.GeneratedPluginRegistrant;
-
 /**
  * @author longshaohua
  */
@@ -21,10 +23,9 @@ public class MainActivity extends FlutterActivity {
     private static final String CHANNEL = "samples.flutter.io/permission";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        GeneratedPluginRegistrant.registerWith(this);
-        new MethodChannel(getFlutterView(), CHANNEL).setMethodCallHandler(
+    public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
+        GeneratedPluginRegistrant.registerWith(flutterEngine);
+        new MethodChannel(flutterEngine.getDartExecutor(), CHANNEL).setMethodCallHandler(
                 (call, result) -> {
                     if ("requestCameraPermissions".equals(call.method)) {
                         result.success(requestCameraPermissions());

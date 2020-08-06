@@ -56,7 +56,7 @@ https://github.com/q805699513/flutter_books.git
 
 <image src="https://file-1301408689.cos.ap-guangzhou.myqcloud.com/githubImage/download.png?raw=true" width="210px"/>
 
-### 版本记录
+### 版本更新记录
 
 #### v1.0.0：2020-05-05
 *  使用最新的 flutter 版本

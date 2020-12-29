@@ -3,9 +3,8 @@
 一款 Flutter 写的小说 App
 
 小说界面效果[csdn](https://blog.csdn.net/longsh_/article/details/104671765)
-
-
 ---
+
 
 ## Show
 

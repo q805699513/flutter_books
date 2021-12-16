@@ -2,7 +2,7 @@
 
 一款 Flutter 写的小说 App
 
-小说界面效果[csdn](https://blog.csdn.net/longsh_/article/details/104671765)
+小说界面效果[掘金](https://juejin.cn/post/6844903907110420488)
 ---
 
 
